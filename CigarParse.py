@@ -7,6 +7,7 @@ def cigar_cutter(cigar):
 	cigar_tuples = list(zip([int(x) for x in list_of_data[::2]],list_of_data[1::2]))
 	return cigar_tuples
 
+
 def adjust_bp(bp_of_snp, cigar_dat):
 	""" scan the cigar data, making front trims, insertions, and deletions"""
 	change_to_bp = 0
@@ -36,6 +37,7 @@ def adjust_bp(bp_of_snp, cigar_dat):
 		if bp_scan >= bp_of_snp:
 				return (bp_of_snp + change_to_bp)
 
+
 def fringe_snp_check(bp_of_snp, cigar_dat, sequence_string):
 	""" look at the first and last tuples, if snp falls outside aligned region, return True"""
 	if cigar_dat[0][1] == 'S':
@@ -63,7 +65,6 @@ def cigar_string_change(sequence_string, bp_of_snp, cigar_string):
 		return new_bp
 
 
-
 def alignment_length(cigar_string):
 	""" take a list of cigar data tuples count total length of alignment"""
 	cigar_cutter_output = cigar_cutter(cigar_string)
@@ -74,15 +75,3 @@ def alignment_length(cigar_string):
 		elif pair[1] == 'S' or pair[1] == 'I':
 			align_length -= pair[0]
 	return align_length
-
-
-
-
-
-
-
-
-
-
-
-
