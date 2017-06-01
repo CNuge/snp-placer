@@ -33,7 +33,7 @@ def calculate_new_bp_data(sam_dataframe):
 		position of the bp based on cigar alignment """
 	""" apply cigarParse bp adjustment to each row"""
 	sam_dataframe['adjusted_bp_SNP_location'] = sam_dataframe.apply(
-		lambda x: cigarParse.cigar_string_change(x['Sequence'],x['bp_SNP_location'],x['Cigar']),axis=1)
+		lambda x: cigarParse.cigar_string_change(x['Sequence'], x['bp_SNP_location'], x['Cigar']),axis=1)
 	""" count the alignment length for each row using cigar """
 	sam_dataframe['alignment_length'] = sam_dataframe.apply(
 		lambda x: cigarParse.alignment_length(x['Cigar']), axis=1)
@@ -42,19 +42,24 @@ def calculate_new_bp_data(sam_dataframe):
 
 def snp_contig_location(flag, pos, adjusted_bp_location, alignment_length):
 	""" determine new bp position of the snp on the larger contig"""
+	try:
+		adjusted_bp_location / 1
+	except:
+		return '-' 
 	if flag == 0 or flag == 256:
 		""" forward aligment, add adj_bp to pos"""
 		return (pos + adjusted_bp_location - 1 )
 	elif flag == 16 or flag == 272:
 		return (pos + alignment_length - adjusted_bp_location)
 	else:
-		return 0
+		return '-'
 
 
 def snp_placement_dataframe(sam_dataframe):
 	"""applies snp_contig_location across a dataframe """
-
-
+	sam_dataframe['contig_location'] = sam_dataframe.apply(
+		lambda x: snp_contig_location(x['Flag'], x['Pos'], x['adjusted_bp_SNP_location'], x['alignment_length']), axis=1)
+	return sam_dataframe
 """
 	this is done like so:
 	if column 2 indicates a forward alignment (0 or 256):
@@ -75,6 +80,7 @@ all_polymorphism_data = sam_polymorphism_column_merger(snp_data_on_contigs, snp_
 
 pre_placement = calculate_new_bp_data(all_polymorphism_data)
 
+placement = snp_placement_dataframe(pre_placement)
 
 # columns of interest ['Qname','Flag','Rname','Pos','MapQ','Cigar']
 
