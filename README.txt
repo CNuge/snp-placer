@@ -1,7 +1,7 @@
 
 ###################################################################
-# this is a work in progress, appropriate at your own risk as it 
-# has yet to be tested fully!
+# this is a work in progress, use at your own risk as it 
+# has yet to be tested fully! (working as far as I can tell though)
 ###################################################################
 
 
@@ -21,7 +21,7 @@ the reference genome you have aligned it to (using the .sam information)
 
 
 Inputs:
-1. The program requires a .sam file, aligning short  query sequence reads that
+1. The program requires a .sam file, aligning short query sequence reads that
 contain snps (something like gbs or radseq data) to a subject genome
 (of either chromosomes, scaffolds or contigs).
 
@@ -34,5 +34,35 @@ TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
 TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
 
 
+What it does:
+
+If one wants to place their snps onto a genome and make sure that they are in the
+correct spot down to the base pair, then all the necessary information is in a .sam
+file.
+
+The .sam fields that act as 'keys' to this puzzle are the following:
+	1. the Qname and Rname columns.
+		- these are pretty clear, tell you which short sequence aligns to which reference location
+	2. the POS column:
+		- this give the bp number of the leftmost part of the alignment, letting us anchor the
+			sequence in the right spot
+	3. the flag column:
+		- these are a little more cryptic 
+		- a 0 or 256 indicated a forward alignment
+		- a 16 or 272 indicates a reverse alignment 
+		- if we have a reverse, our snp's base pair positon needs 
+			to 'flip' along with the rest of the read!
+	4. the CIGAR string:
+		- this string of letters and numbers indicates the alignment details, insertions, 
+			deltions, matches etc.
+			examples:
+				84M1S == 84 matches, 1 soft trim
+				52M1D33M == 52 matches, 1 deletion, 33 matches
+				85M == 85 matches
+		- code in cigarParse applies the information in these strings to the alignment 
+			in the correct manner
+
+The program draws on the above data, to calculate the exact base pair on the contig where the 
+snp falls, and adds this information to the input dataframe. 
 
 
