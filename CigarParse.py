@@ -64,8 +64,9 @@ def cigar_string_change(sequence_string, bp_of_snp, cigar_string):
 
 
 
-def alignment_length(cigar_cutter_output):
+def alignment_length(cigar_string):
 	""" take a list of cigar data tuples count total length of alignment"""
+	cigar_cutter_output = cigar_cutter(cigar_string)
 	align_length = 0
 	for pair in cigar_cutter_output:
 		if pair[1] == 'M' or pair[1] == 'D':
