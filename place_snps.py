@@ -38,10 +38,6 @@ def calculate_new_bp_data(sam_dataframe):
 	sam_dataframe['alignment_length'] = sam_dataframe.apply(
 		lambda x: cigarParse.alignment_length(x['Cigar']), axis=1)
 
-df['newcolumn'] = df.apply(lambda x: fxy(x['A'], x['B']), axis=1)
-
-
-
 
 snp_data_on_contigs = sam_subset(snp_input_dat['SNP_name'], sam_dat)
 
