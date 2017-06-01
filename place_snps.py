@@ -37,13 +37,43 @@ def calculate_new_bp_data(sam_dataframe):
 	""" count the alignment length for each row using cigar """
 	sam_dataframe['alignment_length'] = sam_dataframe.apply(
 		lambda x: cigarParse.alignment_length(x['Cigar']), axis=1)
+	return sam_dataframe
+
+
+def snp_contig_location(flag, pos, adjusted_bp_location, alignment_length):
+	""" determine new bp position of the snp on the larger contig"""
+	if flag == 0 or flag == 256:
+		""" forward aligment, add adj_bp to pos"""
+		return (pos + adjusted_bp_location - 1 )
+	elif flag == 16 or flag == 272:
+		return (pos + alignment_length - adjusted_bp_location)
+	else:
+		return 0
+
+
+def snp_placement_dataframe(sam_dataframe):
+	"""applies snp_contig_location across a dataframe """
+
+
+"""
+	this is done like so:
+	if column 2 indicates a forward alignment (0 or 256):
+		1. get bp of snp using cigar_string.cigar_string_change()
+
+	elif column 2 indicates reverse alignment (16 or 272):
+		1. count bp in alignment using cigar_string.alignment_counter()
+		2. get bp of snp using cigar_string.cigar_string_change()
+		3. use column 4 of sam to get leftmost bp of alignment
+
+		bp_on_contig = POS + (output of cigar_string.alignment_counter()) - (output of cigar_string.cigar_string_change())
+"""
 
 
 snp_data_on_contigs = sam_subset(snp_input_dat['SNP_name'], sam_dat)
 
 all_polymorphism_data = sam_polymorphism_column_merger(snp_data_on_contigs, snp_input_dat)
 
-
+pre_placement = calculate_new_bp_data(all_polymorphism_data)
 
 
 # columns of interest ['Qname','Flag','Rname','Pos','MapQ','Cigar']
@@ -70,17 +100,6 @@ specifically : bp_on_contig,contig,alignment_type
 	+ the alignment start location (column 4 of SAM == POS)
 	+ the reverse flag column (2) (0 or 256 ==  simple addition, 16 or 272 == do math to reverse the bp position with the read)
 	+ adjusted bp of snp
-
-	this is done like so:
-	if column 2 indicates a forward alignment (0 or 256):
-		1. get bp of snp using cigar_string.cigar_string_change()
-
-	elif column 2 indicates reverse alignment (16 or 272):
-		1. count bp in alignment using cigar_string.alignment_counter()
-		2. get bp of snp using cigar_string.cigar_string_change()
-		3. use column 4 of sam to get leftmost bp of alignment
-
-		bp_on_contig = POS + (output of cigar_string.alignment_counter()) - (output of cigar_string.cigar_string_change())
 
 - where contig is based on the .sam Rname column.
 
