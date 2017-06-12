@@ -54,14 +54,23 @@ def snp_placement_dataframe(sam_dataframe):
 		lambda x: snp_contig_location(x['Flag'], x['Pos'], x['adjusted_bp_SNP_location'], x['alignment_length']), axis=1)
 	return sam_dataframe
 
+def output_to_vcf(output_df):
+	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
+	output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
+	vcf_out = output_df[['Rname','contig_location','adj_name', 'Polymorphism','MapQ']]
+	vcf_out['FILTER'] = 'PASS'
+	vcf_out['INFO'] = '.'
+	vcf_out['REF'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[0])
+	vcf_out['ALT_a'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[1:])
+	vcf_out['ALT'] = vcf_out['ALT_a'].apply(lambda x: ','.join(x))
+	vcf_out = vcf_out[['Rname','contig_location','adj_name','REF','ALT','MapQ','FILTER','INFO']]
+	vcf_out.columns =['CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
+	return vcf_out
 
 if __name__ == '__main__':
 
-
-
 	#read in sam file
 	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value']
-
 	sam_input_file = './sam_files/all_snps_samfile_one_location_alignments.sam'
 	sam_dat = pd.read_table(sam_input_file, sep='\t', names = sam_header, index_col=None)
 
@@ -72,20 +81,19 @@ if __name__ == '__main__':
 
 	#read in SNP files
 
-	snp_input_file1 = './snp_files/Stacks_SNP_info.txt'
-	snp_dat1 = pd.read_table(snp_input_file1, sep='\t', index_col=None)
+	snp_input_file1 = './snp_files/NL_CC_SNP_info_new.txt'
+	snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
+#	snp_input_file2 = './snp_files/Tassel_PSV_info.txt'
+#	snp_dat2 = pd.read_table(snp_input_file2, sep='\t', index_col=None)
 
-	snp_input_file2 = './snp_files/Tassel_PSV_info.txt'
-	snp_dat2 = pd.read_table(snp_input_file2, sep='\t', index_col=None)
+#	snp_input_file3 = './snp_files/Tassel_SNP_info.txt'
+#	snp_dat3 = pd.read_table(snp_input_file3, sep='\t', index_col=None)
 
-	snp_input_file3 = './snp_files/Tassel_SNP_info.txt'
-	snp_dat3 = pd.read_table(snp_input_file3, sep='\t', index_col=None)
-
-	frames=[snp_dat1,snp_dat2,snp_dat3]
-	snp_input_dat = pd.concat(frames)
+#	frames=[snp_dat1,snp_dat2,snp_dat3]
+#	snp_input_dat = pd.concat(frames)
 
 	#snp data now avaliable
-	snp_input_dat.head()
+#	snp_input_dat.head()
 
 	#subset the sam alignments for rows matching the snp input
 	snp_data_on_contigs = sam_subset(snp_input_dat['SNP_name'], sam_dat)
@@ -97,8 +105,10 @@ if __name__ == '__main__':
 
 	all_polymorphism_data  = snp_placement_dataframe(all_polymorphism_data )
 
-	all_polymorphism_data.to_csv('snps_on_contigs_one_location.csv')
 
+	polymorphism_vcf = output_to_vcf(all_polymorphism_data)
+
+	polymorphism_vcf.to_csv('icelandic_only_snps_on_contigs_one_location.vcf', sep='\t',index=False)
 
 
 
