@@ -88,6 +88,8 @@ if __name__ == '__main__':
 
 	snp_input_file1 = './snp_files/NL_CC_SNP_info_new.txt'
 	snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
+
+# if multiple inputs, use this
 #	snp_input_file2 = './snp_files/Tassel_PSV_info.txt'
 #	snp_dat2 = pd.read_table(snp_input_file2, sep='\t', index_col=None)
 

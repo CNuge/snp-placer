@@ -1,15 +1,14 @@
 
 
-1. This set of programs allows you to accurately place snps on a genome.
+1. This program allows you to accurately place snps on a genome.
 
 2. You can conduct an initial filtering of the .sam file, splitting alignments
-to one location from alignments to two+ locations and discards alignments to 0 locations.
-This is because you may wish to treat these cases in different manners.
+to one location from alignments to two+ locations. This is because you may wish to treat these cases in different manners.
 
-3. Program will determine the bp position for the snp on the chromosome/contig of
+3. The program will determine the bp position for the snp on the chromosome/contig of
 the reference genome you have aligned it to (using the .sam information)
 
-4. The output can be turned into a .vcf (I may make the program output this directly).
+4. The information is turned into a .vcf file for future use.
 
 
 
@@ -20,18 +19,18 @@ contain snps (something like gbs or radseq data) to a subject genome
 
 2. The program requires a file of all the query sequences, that contains tab
 delimited information on their name, major/minor alleles, bp location and sequence
-looks like the following:
+this input looks like the following, note column names are required on first line:
 
 SNP	Polymorphism_query_hit	bp_SNP_location	Sequence
 TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
 TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
-Where for 'TP10000' there is a G at the 24th base pair of the sequence, and T
+Where for the sequence'TP10000' there is a G at the 24th base pair of the sequence, and T
 is the alternate allele at this location
 
 What it does:
 
-If one wants to place their snps onto a genome and make sure that they are in the
-correct spot down to the base pair, then all the necessary information is in a .sam
+If one wants to place their snps onto a genome and make sure that the snps are in the
+correct spot down to the exact base pair, then all the necessary information is in a .sam
 file.
 
 The .sam fields that act as 'keys' to this puzzle are the following:
@@ -61,12 +60,12 @@ snp falls, and adds this information to the input dataframe.
 
 
 Potential sources of error:
-There are a few ways this script can fail that I've found, here I'll point them out and tell you the fix.
+There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
 
-1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75
+1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75 (or delete the colums)
 
-2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then move the # from line 60 to line 61
-to make the necessary type change.
+2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
+move the # from line 60 to line 61 to make the necessary type change.
 
 
 
