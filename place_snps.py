@@ -56,6 +56,8 @@ def snp_placement_dataframe(sam_dataframe):
 
 def output_to_vcf(output_df):
 	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
+	# if your names are numeric, implement line 60	
+	#output_df['adj_name'] = output_df['SNP_name'].astype(str) +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
 	output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
 	vcf_out = output_df[['Rname','contig_location','adj_name', 'Polymorphism','MapQ']]
 	vcf_out['FILTER'] = 'PASS'
@@ -71,6 +73,9 @@ if __name__ == '__main__':
 
 	#read in sam file
 	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value']
+	# if you have more columns, change this!
+	#sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','bonus']
+
 	sam_input_file = './sam_files/all_snps_samfile_one_location_alignments.sam'
 	sam_dat = pd.read_table(sam_input_file, sep='\t', names = sam_header, index_col=None)
 

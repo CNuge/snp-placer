@@ -60,3 +60,13 @@ The program draws on the above data, to calculate the exact base pair on the con
 snp falls, and adds this information to the input dataframe. 
 
 
+Potential sources of error:
+There are a few ways this script can fail that I've found, here I'll point them out and tell you the fix.
+
+1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75
+
+2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then move the # from line 60 to line 61
+to make the necessary type change.
+
+
+
