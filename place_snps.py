@@ -76,7 +76,7 @@ if __name__ == '__main__':
 	# if you have more columns, change this!
 	#sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','bonus']
 
-	sam_input_file = './sam_files/all_snps_samfile_one_location_alignments.sam'
+	sam_input_file = 'all_snps_secondary_alignments.sam'
 	sam_dat = pd.read_table(sam_input_file, sep='\t', names = sam_header, index_col=None)
 
 	#take the brackets out of the query section
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
 	#read in SNP files
 
-	snp_input_file1 = './snp_files/NL_CC_SNP_info_new.txt'
+	snp_input_file1 = 'ALL_SNPs_allele_info_one_file.txt'
 	snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
 
 # if multiple inputs, use this
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
 	polymorphism_vcf = output_to_vcf(all_polymorphism_data)
 
-	polymorphism_vcf.to_csv('icelandic_only_snps_on_contigs_one_location.vcf', sep='\t',index=False)
+	polymorphism_vcf.to_csv('stacks_two_locations.vcf', sep='\t',index=False)
 
 
 
