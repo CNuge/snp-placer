@@ -54,18 +54,58 @@ def snp_placement_dataframe(sam_dataframe):
 		lambda x: snp_contig_location(x['Flag'], x['Pos'], x['adjusted_bp_SNP_location'], x['alignment_length']), axis=1)
 	return sam_dataframe
 
+def compliment_name(name, flag):
+	""" if the alignment is a reverse, add _comp to the end of its identification """
+	if flag == 16 or flag == 272:
+		return '%s_comp' % (name)
+	else:
+		return name
+
+			
+def match_snp(in_allele):
+	if in_allele == 'A':
+		return 'T'
+	elif in_allele == 'T':
+		return 'A'
+	elif in_allele == 'C':
+		return 'G'
+	elif in_allele == 'G':
+		return 'C'
+
+def allele_comp_check(in_allele, flag):
+	""" if alignment is a reverse, flip the allele to the complimentary base pair. """
+	if flag == 0 or flag == 256:
+		return in_allele
+	elif flag == 16 or flag == 272:
+		if len(in_allele) == 1:
+			return match_snp(in_allele)
+		else:
+			in_alleles = in_allele.split(',')
+			out_alleles = []
+			for i in in_alleles:
+				out_alleles.append(match_snp(i))
+			return ','.join(out_alleles)
+
+
 def output_to_vcf(output_df):
 	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
 	# if your names are numeric, implement line 60	
 	#output_df['adj_name'] = output_df['SNP_name'].astype(str) +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
 	output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
-	vcf_out = output_df[['Rname','contig_location','adj_name', 'Polymorphism','MapQ']]
+	# 
+	output_df['full_adj_name'] = output_df.apply(lambda x: compliment_name(x['adj_name'], x['Flag']), axis=1)
+
+	vcf_out = output_df[['Rname','contig_location','full_adj_name', 'Polymorphism','MapQ','Flag']]
 	vcf_out['FILTER'] = 'PASS'
 	vcf_out['INFO'] = '.'
-	vcf_out['REF'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[0])
+	vcf_out['REF_check'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[0])
 	vcf_out['ALT_a'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[1:])
-	vcf_out['ALT'] = vcf_out['ALT_a'].apply(lambda x: ','.join(x))
-	vcf_out = vcf_out[['Rname','contig_location','adj_name','REF','ALT','MapQ','FILTER','INFO']]
+	vcf_out['ALT_check'] = vcf_out['ALT_a'].apply(lambda x: ','.join(x))
+
+	vcf_out['REF'] = vcf_out.apply(lambda x: allele_comp_check(x['REF_check'] , x['Flag']), axis=1)
+	vcf_out['ALT'] = vcf_out.apply(lambda x: allele_comp_check(x['ALT_check'] , x['Flag']), axis=1)
+
+	vcf_out = vcf_out[['Rname','contig_location','full_adj_name','REF','ALT','MapQ','FILTER','INFO']]
 	vcf_out.columns =['CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
 	return vcf_out
 
@@ -76,7 +116,7 @@ if __name__ == '__main__':
 	# if you have more columns, change this!
 	#sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','bonus']
 
-	sam_input_file = 'all_snps_secondary_alignments.sam'
+	sam_input_file = 'all_snps_samfile_one_location_alignments.sam'
 	sam_dat = pd.read_table(sam_input_file, sep='\t', names = sam_header, index_col=None)
 
 	#take the brackets out of the query section
@@ -86,7 +126,7 @@ if __name__ == '__main__':
 
 	#read in SNP files
 
-	snp_input_file1 = 'ALL_SNPs_allele_info_one_file.txt'
+	snp_input_file1 = '../SNP_information_files/unfiltered_lists/ALL_SNPs_allele_info_one_file.txt'
 	snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
 
 # if multiple inputs, use this
