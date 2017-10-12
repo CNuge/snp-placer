@@ -1,6 +1,9 @@
 
 
-1. This program allows you to accurately place snps on a genome.
+1. This program allows you to accurately place snps on a genome after you have conducted an alignment
+of short sequence reads against a genome. Assuming the position of the SNP on the short read
+is known, then you can use this to find the exact base pair on the reference chromosome/contig.
+For my use of this function the .sam alignment info was generated though a burrows-wheeler alignment. 
 
 2. You can conduct an initial filtering of the .sam file, splitting alignments
 to one location from alignments to two+ locations. This is because you may wish to treat these cases in different manners.
@@ -13,7 +16,7 @@ the reference genome you have aligned it to (using the .sam information)
 
 
 Inputs:
-1. The program requires a .sam file, aligning short query sequence reads that
+1. The program requires a .sam file as input, aligning short query sequence reads that
 contain snps (something like gbs or radseq data) to a subject genome
 (of either chromosomes, scaffolds or contigs).
 
