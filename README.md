@@ -55,9 +55,13 @@ The .sam fields that act as 'keys' to this puzzle are the following:
 		- this string of letters and numbers indicates the alignment details, insertions, 
 		deltions, matches etc.
 		examples:
+		
 			84M1S == 84 matches, 1 soft trim
+			
 			52M1D33M == 52 matches, 1 deletion, 33 matches
+			
 			85M == 85 matches
+			
 		- code in cigarParse applies the information in these strings to the alignment 
 		in the correct manner
 
