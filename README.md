@@ -1,4 +1,4 @@
-
+# SNP genome placement
 
 1. This program allows you to accurately place snps on a genome after you have conducted an alignment
 of short sequence reads against a genome. Assuming the position of the SNP on the short read
@@ -15,7 +15,7 @@ the reference genome you have aligned it to (using the .sam information)
 
 
 
-Inputs:
+## Inputs:
 1. The program requires a .sam file as input, aligning short query sequence reads that
 contain snps (something like gbs or radseq data) to a subject genome
 (of either chromosomes, scaffolds or contigs).
@@ -27,7 +27,8 @@ this input looks like the following, note column names are required on first lin
 SNP	Polymorphism_query_hit	bp_SNP_location	Sequence
 TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
 TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
-Where for the sequence'TP10000' there is a G at the 24th base pair of the sequence, and T
+
+Where for the sequence 'TP10000' there is a G at the 24th base pair of the sequence, and T
 is the alternate allele at this location
 
 What it does:
