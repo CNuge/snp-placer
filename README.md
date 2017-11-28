@@ -56,11 +56,11 @@ The .sam fields that act as 'keys' to this puzzle are the following:
 		in the correct manner
 		examples:
 		
-			84M1S == 84 matches, 1 soft trim
+			'84M1S' == 84 matches, 1 soft trim
 			
-			52M1D33M == 52 matches, 1 deletion, 33 matches
+			'52M1D33M' == 52 matches, 1 deletion, 33 matches
 			
-			85M == 85 matches
+			'85M' == 85 matches
 			
 
 
