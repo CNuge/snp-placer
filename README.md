@@ -24,13 +24,9 @@ contain snps (something like gbs or radseq data) to a subject genome
 delimited information on their name, major/minor alleles, bp location and sequence
 this input looks like the following, note column names are required on first line:
 
-
-	SNP	Polymorphism_query_hit	bp_SNP_location	Sequence
-	
-	TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
-	
-	TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
-	
+		SNP	Polymorphism_query_hit	bp_SNP_location	Sequence
+		TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
+		TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
 	
 Where for the sequence 'TP10000' there is a G at the 24th base pair of the sequence, and T
 is the alternate allele at this location
