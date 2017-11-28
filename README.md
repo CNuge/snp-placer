@@ -24,11 +24,12 @@ contain snps (something like gbs or radseq data) to a subject genome
 delimited information on their name, major/minor alleles, bp location and sequence
 this input looks like the following, note column names are required on first line:
 
-SNP	Polymorphism_query_hit	bp_SNP_location	Sequence
 
-TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
+	SNP	Polymorphism_query_hit	bp_SNP_location	Sequence
+	TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
+	TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
 
-TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
+
 
 Where for the sequence 'TP10000' there is a G at the 24th base pair of the sequence, and T
 is the alternate allele at this location
@@ -54,6 +55,8 @@ The .sam fields that act as 'keys' to this puzzle are the following:
 	4. the CIGAR string:
 		- this string of letters and numbers indicates the alignment details, insertions, 
 		deltions, matches etc.
+		- code in cigarParse applies the information in these strings to the alignment 
+		in the correct manner
 		examples:
 		
 			84M1S == 84 matches, 1 soft trim
@@ -62,12 +65,10 @@ The .sam fields that act as 'keys' to this puzzle are the following:
 			
 			85M == 85 matches
 			
-		- code in cigarParse applies the information in these strings to the alignment 
-		in the correct manner
+
 
 The program draws on the above data, to calculate the exact base pair on the contig where the 
 snp falls, and adds this information to the input dataframe. 
-
 
 Potential sources of error:
 There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
