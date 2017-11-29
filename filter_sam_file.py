@@ -9,10 +9,10 @@
 	information retained from the alignment section"""
 
 
-input_sam_file = './sam_files/all_Arctic_charr_snps.sam'
+input_sam_file = './example_data/unfiltered_sam_data.sam'
 
-secondary_alignments_out = 'secondary_alignments.sam'
-alignments_one_location = 'samfile_one_location_alignments.sam'
+secondary_alignments_out = './example_data/example_secondary_alignments.sam'
+alignments_one_location = './example_data/samfile_one_location_alignments.sam'
 
 
 with open(input_sam_file) as file:
