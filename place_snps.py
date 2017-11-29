@@ -114,8 +114,9 @@ if __name__ == '__main__':
 	# if you have more columns, change this!
 	#sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','bonus']
 
-	sam_input_file = 'all_snps_samfile_one_location_alignments.sam'
-	sam_dat = pd.read_table(sam_input_file, sep='\t', names = sam_header, index_col=None)
+	sam_input_file1 = './example_data/numeric_ex.sam'
+	sam_input_file2 = './example_data/string_name_ex.sam'
+	sam_dat = pd.read_table(sam_input_file1, sep='\t', names = sam_header, index_col=None)
 
 	#take the brackets out of the query section
 	sam_dat['Qname'] = [x.split('(')[0] for x in sam_dat['Qname']]
@@ -124,8 +125,8 @@ if __name__ == '__main__':
 
 	#read in SNP files
 
-	snp_input_file1 = './example_data/numeric_ex.sam'
-	snp_input_file2 = './example_data/string_name_ex.sam'
+	snp_input_file1 = './example_data/numeric_ex.txt'
+	snp_input_file2 = './example_data/string_name_ex.txt'
 
 	snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
 
@@ -155,7 +156,7 @@ if __name__ == '__main__':
 
 	polymorphism_vcf = output_to_vcf(all_polymorphism_data)
 
-	polymorphism_vcf.to_csv('stacks_two_locations.vcf', sep='\t',index=False)
+	polymorphism_vcf.to_csv('example_data.vcf', sep='\t',index=False)
 
 """
 Potential sources of error:
@@ -165,6 +166,8 @@ There are a few ways this script can fail that I've found, here I point them out
 
 2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
 move the # from line 60 to line 61 to make the necessary type change.
+
+3. add an argument parser to this 
 
 """
 
