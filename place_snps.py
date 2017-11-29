@@ -157,7 +157,16 @@ if __name__ == '__main__':
 
 	polymorphism_vcf.to_csv('stacks_two_locations.vcf', sep='\t',index=False)
 
+"""
+Potential sources of error:
+There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
 
+1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75 (or delete the colums)
+
+2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
+move the # from line 60 to line 61 to make the necessary type change.
+
+"""
 
 
 
