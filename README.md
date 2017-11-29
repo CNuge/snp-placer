@@ -16,6 +16,8 @@ the reference genome you have aligned it to (using the .sam information)
 
 
 ## Inputs:
+See the folder [example_data](https://github.com/CNuge/snp_genome_placement/tree/master/example_data) for example input files.
+
 1. The program requires a .sam file as input, aligning short query sequence reads that
 contain snps (something like gbs or radseq data) to a subject genome
 (of either chromosomes, scaffolds or contigs).
@@ -31,7 +33,7 @@ this input looks like the following, note column names are required on first lin
 Where for the sequence 'TP10000' there is a G at the 24th base pair of the sequence, and T
 is the alternate allele at this location
 
-What it does:
+## What the program does:
 
 If one wants to place their snps onto a genome and make sure that the snps are in the
 correct spot down to the exact base pair, then all the necessary information is in a .sam
