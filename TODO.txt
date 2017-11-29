@@ -1,0 +1,11 @@
+
+
+#1. add an argument parser to filter_sam_file.py
+
+#2. add an argument parser to place_snps.py
+
+#3. add unittests to all files
+
+#4 add a filter example file to the example data.
+
+#5 update the readme to give a workflow using the filter_sam_file.py --> place_snps.py
