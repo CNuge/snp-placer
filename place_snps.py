@@ -87,7 +87,8 @@ def allele_comp_check(in_allele, flag):
 def output_to_vcf(output_df):
 	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
 	# if your names are numeric, implement line 60	
-	#output_df['adj_name'] = output_df['SNP_name'].astype(str) +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
+	if  output_df['SNP_name'][0]
+	output_df['adj_name'] = output_df['SNP_name'].astype(str) +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
 	output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
 
 	output_df['full_adj_name'] = output_df.apply(lambda x: compliment_name(x['adj_name'], x['Flag']), axis=1)
@@ -123,7 +124,9 @@ if __name__ == '__main__':
 
 	#read in SNP files
 
-	snp_input_file1 = '../SNP_information_files/unfiltered_lists/ALL_SNPs_allele_info_one_file.txt'
+	snp_input_file1 = './example_data/numeric_ex.sam'
+	snp_input_file2 = './example_data/string_name_ex.sam'
+
 	snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
 
 # if multiple inputs, use this
