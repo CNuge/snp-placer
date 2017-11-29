@@ -15,16 +15,16 @@ def sam_subset(snp_names, sam_file_df):
 
 
 def sam_polymorphism_column_merger(sam_dataframe, snp_dataframe):
-	"""grab the bp, and polymorphisms from the snp dataframe"""
-	""" note that if two snps on one contig, there will be multiple rows for that snp"""
+	"""grab the bp, and polymorphisms from the snp dataframe
+	note that if two snps on one contig, there will be multiple rows for that snp"""
 	return pd.merge(sam_dataframe, snp_dataframe, how='left',left_on='Qname', right_on='SNP_name')
 
 
 def calculate_new_bp_data(sam_dataframe):
 	"""pass in sam df, this will call the relevant sigar functions
 		determining the length of the alignment, and the adjusted
-		position of the bp based on cigar alignment """
-	""" apply cigarParse bp adjustment to each row"""
+		position of the bp based on cigar alignment 
+		apply cigarParse bp adjustment to each row"""
 	sam_dataframe['adjusted_bp_SNP_location'] = sam_dataframe.apply(
 		lambda x: cigarParse.cigar_string_change(x['Sequence'], x['bp_SNP_location'], x['Cigar']),axis=1)
 	""" count the alignment length for each row using cigar """
@@ -47,7 +47,6 @@ def snp_contig_location(flag, pos, adjusted_bp_location, alignment_length):
 	else:
 		return '-'
 
-
 def snp_placement_dataframe(sam_dataframe):
 	"""apply snp_contig_location across a dataframe """
 	sam_dataframe['contig_location'] = sam_dataframe.apply(
@@ -60,8 +59,7 @@ def compliment_name(name, flag):
 		return '%s_comp' % (name)
 	else:
 		return name
-
-			
+		
 def match_snp(in_allele):
 	if in_allele == 'A':
 		return 'T'
@@ -86,13 +84,12 @@ def allele_comp_check(in_allele, flag):
 				out_alleles.append(match_snp(i))
 			return ','.join(out_alleles)
 
-
 def output_to_vcf(output_df):
 	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
 	# if your names are numeric, implement line 60	
 	#output_df['adj_name'] = output_df['SNP_name'].astype(str) +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
 	output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
-	# 
+
 	output_df['full_adj_name'] = output_df.apply(lambda x: compliment_name(x['adj_name'], x['Flag']), axis=1)
 
 	vcf_out = output_df[['Rname','contig_location','full_adj_name', 'Polymorphism','MapQ','Flag']]
@@ -140,7 +137,7 @@ if __name__ == '__main__':
 #	snp_input_dat = pd.concat(frames)
 
 	#snp data now avaliable
-#	snp_input_dat.head()
+	#snp_input_dat.head()
 
 	#subset the sam alignments for rows matching the snp input
 	snp_data_on_contigs = sam_subset(snp_input_dat['SNP_name'], sam_dat)
