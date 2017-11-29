@@ -69,13 +69,4 @@ The .sam fields that act as 'keys' to this puzzle are the following:
 The program draws on the above data, to calculate the exact base pair on the contig where the 
 snp falls, and adds this information to the input dataframe. 
 
-Potential sources of error:
-There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
-
-1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75 (or delete the colums)
-
-2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
-move the # from line 60 to line 61 to make the necessary type change.
-
-
 
