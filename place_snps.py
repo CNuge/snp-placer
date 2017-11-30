@@ -21,7 +21,7 @@ def sam_polymorphism_column_merger(sam_dataframe, snp_dataframe):
 
 
 def calculate_new_bp_data(sam_dataframe):
-	"""pass in sam df, this will call the relevant sigar functions
+	"""pass in sam df, this will call the relevant cigar functions
 		determining the length of the alignment, and the adjusted
 		position of the bp based on cigar alignment 
 		apply cigarParse bp adjustment to each row"""

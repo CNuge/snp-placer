@@ -1,11 +1,13 @@
 from itertools import groupby
 import unittest
 
+
 def cigar_cutter(cigar):
 	"""split a cigar string into tuples of bp# and cigar identifier """
 	list_of_data = [''.join(g) for _, g in groupby(cigar, str.isalpha)]
 	cigar_tuples = list(zip([int(x) for x in list_of_data[::2]],list_of_data[1::2]))
 	return cigar_tuples
+
 
 def adjust_bp(bp_of_snp, cigar_dat):
 	""" scan the cigar data, making front trims, insertions, and deletions"""
@@ -145,40 +147,8 @@ class CigarTests(unittest.TestCase):
 		self.assertEqual(
 			cigar_string_change(46, '45M23S'),
 			'snp_outside_aligned_region')		
-"""
-TODO
-
-'52M1D33M'
-[(52, 'M'), (1, 'D'), (33, 'M')]
-
-'84M1S'
 
 
-'74M11S'
-[(74, 'M'), (11,'S')]
-
-
-70 [(52, 'M'), (1, 'D'), (33, 'M')]
-69
-
-[(74, 'M'), (11,'S')]
-
-31M8D46M8S
-
-
-74 , [(74, 'M'), (11,'S')]
-False
-
-75, [(74, 'M'), (11,'S')]
-True
-
-5, [(1, 'S'),(84, 'M')]
-False
-
-5, [(12, 'S'),(84, 'M')]
-True
-
-"""
 if __name__ == "__main__":
 
 	unittest.main()
