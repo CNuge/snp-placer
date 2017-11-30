@@ -47,7 +47,7 @@ def fringe_snp_check(bp_of_snp, cigar_dat):
 		if cigar_dat[0][0] > bp_of_snp:
 			return True
 	if cigar_dat[-1][1] == 'S':
-		if (len(sequence_len) - cigar_dat[-1][0]) < bp_of_snp:
+		if (sequence_len - cigar_dat[-1][0]) < bp_of_snp:
 			return True
 	return False
 
@@ -82,12 +82,15 @@ def alignment_length(cigar_string):
 
 class CigarTests(unittest.TestCase):
 	def test_cigar_cutter(self):
-		self.assertEqual(cigar_cutter('52M1D33M'), 
-				[(52, 'M'), (1, 'D'), (33, 'M')])
-		self.assertEqual(cigar_cutter('84M1S'), 
-				[(84, 'M'), (1, 'S')])
-		self.assertEqual(cigar_cutter('74M11S'), 
-				[(74, 'M'), (11,'S')])
+		self.assertEqual(
+			cigar_cutter('52M1D33M'), 
+			[(52, 'M'), (1, 'D'), (33, 'M')])
+		self.assertEqual(
+			cigar_cutter('84M1S'), 
+			[(84, 'M'), (1, 'S')])
+		self.assertEqual(
+			cigar_cutter('74M11S'), 
+			[(74, 'M'), (11,'S')])
 
 	def test_adjust_bp(self):
 		self.assertEqual(
@@ -104,13 +107,28 @@ class CigarTests(unittest.TestCase):
 			'snp_outside_aligned_region')
 
 	def test_fringe_snp_check(self):
+		self.assertTrue(
+			fringe_snp_check(75, [(74, 'M'), (11,'S')]))
+		self.assertFalse(
+			fringe_snp_check(74 , [(74, 'M'), (11,'S')]))
+		self.assertTrue(
+			fringe_snp_check(5, [(12, 'S'),(84, 'M')]))
+		self.assertFalse(
+			fringe_snp_check(5, [(1, 'S'),(84, 'M')]))
+
 """
+TODO:
+
+
+cigar_string_change(sequence_string, bp_of_snp, cigar_string):
+
+alignment_length(cigar_string)
 
 '52M1D33M'
 [(52, 'M'), (1, 'D'), (33, 'M')]
 
 '84M1S'
-[(84, 'M'), (1, 'S')]
+
 
 '74M11S'
 [(74, 'M'), (11,'S')]
@@ -122,6 +140,19 @@ class CigarTests(unittest.TestCase):
 [(74, 'M'), (11,'S')]
 
 31M8D46M8S
+
+
+74 , [(74, 'M'), (11,'S')]
+False
+
+75, [(74, 'M'), (11,'S')]
+True
+
+5, [(1, 'S'),(84, 'M')]
+False
+
+5, [(12, 'S'),(84, 'M')]
+True
 
 """
 if __name__ == "__main__":
