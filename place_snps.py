@@ -87,9 +87,10 @@ def allele_comp_check(in_allele, flag):
 def output_to_vcf(output_df):
 	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
 	# if your names are numeric, implement line 60	
-	if  output_df['SNP_name'][0]
-	output_df['adj_name'] = output_df['SNP_name'].astype(str) +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
-	output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
+	if type(output_df['SNP_name'][0]) == str:
+		output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)		
+	else:
+		output_df['adj_name'] = output_df['SNP_name'].astype(str) +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)
 
 	output_df['full_adj_name'] = output_df.apply(lambda x: compliment_name(x['adj_name'], x['Flag']), axis=1)
 

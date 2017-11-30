@@ -86,18 +86,21 @@ class CigarTests(unittest.TestCase):
 		self.assertEqual(cigar_cutter('74M11S'), 
 				[(74, 'M'), (11,'S')])
 
+	def test_adjust_bp(self):
 
 """
 
-cigar_string='52M1D33M'
+'52M1D33M'
 [(52, 'M'), (1, 'D'), (33, 'M')]
 
-cig_try_2 = '84M1S'
-
+'84M1S'
 [(84, 'M'), (1, 'S')]
 
 '74M11S'
 [(74, 'M'), (11,'S')]
+
+
+
 """
 if __name__ == "__main__":
 
