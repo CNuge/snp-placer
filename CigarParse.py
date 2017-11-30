@@ -52,7 +52,7 @@ def fringe_snp_check(bp_of_snp, cigar_dat):
 	return False
 
 
-def cigar_string_change(sequence_string, bp_of_snp, cigar_string):
+def cigar_string_change(bp_of_snp, cigar_string):
 	""" take in the original string, and the snp location, adjust location based on
 		cigar data, returns a new bp integer that can be used relative to the start
 		of the sequence's alignment to place the bp of the snp
@@ -63,7 +63,7 @@ def cigar_string_change(sequence_string, bp_of_snp, cigar_string):
 		return bp_of_snp
 	else:
 		new_bp = adjust_bp(bp_of_snp, cigar_dat)
-		if fringe_snp_check(bp_of_snp, cigar_dat, sequence_string) == True:
+		if fringe_snp_check(bp_of_snp, cigar_dat) == True:
 			new_bp = 'snp_outside_aligned_region'
 		return new_bp
 
@@ -128,6 +128,23 @@ class CigarTests(unittest.TestCase):
 		self.assertEqual(
 			alignment_length('31M8D2I46M8S'),
 			79)
+
+	def test_cigar_string_change(self):
+		self.assertEqual(
+			cigar_string_change(70 ,'52M1D33M'),
+			69)
+		self.assertEqual(
+			cigar_string_change(70 ,'52M5I33M'),
+			75)
+		self.assertEqual(
+			cigar_string_change(33, '45M23S'),
+			33)
+		self.assertEqual(
+			cigar_string_change(53, '52M1D33M'),
+			'snp_outside_aligned_region')
+		self.assertEqual(
+			cigar_string_change(46, '45M23S'),
+			'snp_outside_aligned_region')		
 """
 TODO
 
