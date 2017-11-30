@@ -38,13 +38,16 @@ def adjust_bp(bp_of_snp, cigar_dat):
 				return (bp_of_snp + change_to_bp)
 
 
-def fringe_snp_check(bp_of_snp, cigar_dat, sequence_string):
+def fringe_snp_check(bp_of_snp, cigar_dat):
 	""" look at the first and last tuples, if snp falls outside aligned region, return True"""
+	sequence_len = 0
+	for x in cigar_dat:
+		sequence_len += x[0]
 	if cigar_dat[0][1] == 'S':
 		if cigar_dat[0][0] > bp_of_snp:
 			return True
 	if cigar_dat[-1][1] == 'S':
-		if (len(sequence_string) - cigar_dat[-1][0]) < bp_of_snp:
+		if (len(sequence_len) - cigar_dat[-1][0]) < bp_of_snp:
 			return True
 	return False
 
@@ -91,12 +94,16 @@ class CigarTests(unittest.TestCase):
 			adjust_bp(70 ,[(52, 'M'), (1, 'D'), (33, 'M')]),
 			69)
 		self.assertEqual(
-			adjust_bp(33, [(85,'M')]),
+			adjust_bp(70 ,[(52, 'M'), (5, 'I'), (33, 'M')]),
+			75)
+		self.assertEqual(
+			adjust_bp(33, [(45,'M'),(23,'S')]),
 			33)
 		self.assertEqual(
 			adjust_bp(53, [(52, 'M'), (1, 'D'), (33, 'M')]),
 			'snp_outside_aligned_region')
 
+	def test_fringe_snp_check(self):
 """
 
 '52M1D33M'
