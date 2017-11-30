@@ -56,7 +56,7 @@ def cigar_string_change(sequence_string, bp_of_snp, cigar_string):
 	""" take in the original string, and the snp location, adjust location based on
 		cigar data, returns a new bp integer that can be used relative to the start
 		of the sequence's alignment to place the bp of the snp
-		NOTE: both the input and output string are NOT zero indexed"""
+		NOTE: both the input and output string are NOT zero indexed """
 	cigar_dat = cigar_cutter(cigar_string)
 	#first, identify the snps with no indels or font trimming
 	if cigar_dat[0][1] == 'M' and cigar_dat[0][0] > bp_of_snp:
@@ -69,16 +69,13 @@ def cigar_string_change(sequence_string, bp_of_snp, cigar_string):
 
 
 def alignment_length(cigar_string):
-	""" Take a list of cigar data tuples count total length of alignment
-		Note this is the length of sequence traversed on the genome, 
-		not the length on the short read!"""
+	""" Take a list of cigar data tuples count total length of alignment """
 	cigar_cutter_output = cigar_cutter(cigar_string)
 	align_length = 0
 	for pair in cigar_cutter_output:
-		if pair[1] == 'M' or pair[1] == 'D':
+		if pair[1] == 'M' or pair[1] == 'I':
 			align_length += pair[0]
-		elif pair[1] == 'S' or pair[1] == 'I':
-			align_length -= pair[0]
+
 	return align_length
 
 
@@ -118,6 +115,19 @@ class CigarTests(unittest.TestCase):
 		self.assertFalse(
 			fringe_snp_check(5, [(1, 'S'),(84, 'M')]))
 
+	def test_alignment_length(self):
+		self.assertEqual(
+			alignment_length('74M11S'),
+			74)
+		self.assertEqual(
+			alignment_length('52M1D33M'),
+			85)
+		self.assertEqual(
+			alignment_length('85M'),
+			85)
+		self.assertEqual(
+			alignment_length('31M8D2I46M8S'),
+			79)
 """
 TODO
 
