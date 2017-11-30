@@ -1,5 +1,5 @@
 from itertools import groupby
-
+import unittest
 
 def cigar_cutter(cigar):
 	"""split a cigar string into tuples of bp# and cigar identifier """
@@ -75,3 +75,35 @@ def alignment_length(cigar_string):
 		elif pair[1] == 'S' or pair[1] == 'I':
 			align_length -= pair[0]
 	return align_length
+
+
+class CigarTests(unittest.TestCase):
+	def test_cigar_cutter(self):
+		self.assertEqual(cigar_cutter('52M1D33M'), 
+				[(52, 'M'), (1, 'D'), (33, 'M')])
+		self.assertEqual(cigar_cutter('84M1S'), 
+				[(84, 'M'), (1, 'S')])
+		self.assertEqual(cigar_cutter('74M11S'), 
+				[(74, 'M'), (11,'S')])
+
+
+"""
+
+cigar_string='52M1D33M'
+[(52, 'M'), (1, 'D'), (33, 'M')]
+
+cig_try_2 = '84M1S'
+
+[(84, 'M'), (1, 'S')]
+
+'74M11S'
+[(74, 'M'), (11,'S')]
+"""
+if __name__ == "__main__":
+
+	unittest.main()
+
+
+
+
+
