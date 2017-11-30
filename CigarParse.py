@@ -73,10 +73,10 @@ def alignment_length(cigar_string):
 	cigar_cutter_output = cigar_cutter(cigar_string)
 	align_length = 0
 	for pair in cigar_cutter_output:
-		if pair[1] == 'M' or pair[1] == 'D':
+		if pair[1] == 'M':
 			align_length += pair[0]
-		elif pair[1] == 'S' or pair[1] == 'I':
-			align_length -= pair[0]
+		if pair[1] == 'I':
+			align_length += pair[0]
 	return align_length
 
 
@@ -123,6 +123,20 @@ TODO:
 cigar_string_change(sequence_string, bp_of_snp, cigar_string):
 
 alignment_length(cigar_string)
+
+
+31M2I52M
+[(31, 'M'), (2, 'I'), (52, 'M')]
+85
+
+31M8D46M8S
+[(31, 'M'), (8, 'D'), (46, 'M'), (8, 'S')]
+
+6S31M6D48M
+[(6, 'S'), (31, 'M'), (6, 'D'), (48, 'M')]
+
+[(144,'M')]
+144
 
 '52M1D33M'
 [(52, 'M'), (1, 'D'), (33, 'M')]
