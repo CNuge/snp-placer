@@ -7,7 +7,6 @@ def cigar_cutter(cigar):
 	cigar_tuples = list(zip([int(x) for x in list_of_data[::2]],list_of_data[1::2]))
 	return cigar_tuples
 
-
 def adjust_bp(bp_of_snp, cigar_dat):
 	""" scan the cigar data, making front trims, insertions, and deletions"""
 	change_to_bp = 0
@@ -15,13 +14,14 @@ def adjust_bp(bp_of_snp, cigar_dat):
 	for x, cigar_bit in enumerate(cigar_dat):
 		if cigar_bit[1] == 'M':
 			""" count the matches towards the scan, no change to location"""
-			bp_scan += cigar_bit[0]
-		
+			bp_scan += cigar_bit[0]		
 		elif cigar_bit[1] == 'D':
 			"""minus one from location, move bp scan count up"""
 			change_to_bp -= cigar_bit[0]
 			bp_scan += cigar_bit[0]
-		
+			#exception: if the deleted bp housed the SNP
+			if bp_scan == bp_of_snp:
+				return 'snp_outside_aligned_region'		
 		elif cigar_bit[1] == 'I':
 			"""add one to location, no change to scan count"""
 			change_to_bp += cigar_bit[0]
@@ -43,7 +43,7 @@ def fringe_snp_check(bp_of_snp, cigar_dat, sequence_string):
 	if cigar_dat[0][1] == 'S':
 		if cigar_dat[0][0] > bp_of_snp:
 			return True
-	elif cigar_dat[-1][1] == "S":
+	if cigar_dat[-1][1] == 'S':
 		if (len(sequence_string) - cigar_dat[-1][0]) < bp_of_snp:
 			return True
 	return False
@@ -87,6 +87,15 @@ class CigarTests(unittest.TestCase):
 				[(74, 'M'), (11,'S')])
 
 	def test_adjust_bp(self):
+		self.assertEqual(
+			adjust_bp(70 ,[(52, 'M'), (1, 'D'), (33, 'M')]),
+			69)
+		self.assertEqual(
+			adjust_bp(33, [(85,'M')]),
+			33)
+		self.assertEqual(
+			adjust_bp(53, [(52, 'M'), (1, 'D'), (33, 'M')]),
+			'snp_outside_aligned_region')
 
 """
 
@@ -100,6 +109,12 @@ class CigarTests(unittest.TestCase):
 [(74, 'M'), (11,'S')]
 
 
+70 [(52, 'M'), (1, 'D'), (33, 'M')]
+69
+
+[(74, 'M'), (11,'S')]
+
+31M8D46M8S
 
 """
 if __name__ == "__main__":
