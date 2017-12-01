@@ -1,4 +1,5 @@
 # SNP genome placement
+[![Build Status](https://travis-ci.org/CNuge/snp_genome_placement.svg?branch=master)](https://travis-ci.org/CNuge/snp_genome_placement)
 ## Currently under renovation - I'm adding in a bunch of tests and refactoring code so email me for a stable version!
 
 1. This program allows you to accurately place snps on a genome after you have conducted an alignment
