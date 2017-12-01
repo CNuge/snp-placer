@@ -21,4 +21,4 @@ DONE #7 split place_snps.py functions into modules in a logical manner
 
 DONE #9 get the cool green passing things on your github
 
-#10 add liscence
+DONE #10 add liscence
