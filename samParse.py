@@ -1,3 +1,5 @@
+import unittest
+
 def snp_contig_location(flag, pos, adjusted_bp_location, alignment_length):
 	""" determine new bp position of the snp on the larger contig"""
 	try:
@@ -42,3 +44,8 @@ def allele_comp_check(in_allele, flag):
 			for i in in_alleles:
 				out_alleles.append(match_snp(i))
 			return ','.join(out_alleles)
+
+
+
+
+if __name__ == '__main__':
