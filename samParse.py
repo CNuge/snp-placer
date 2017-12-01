@@ -84,13 +84,34 @@ class SamTests(unittest.TestCase):
 					'CMN001_comp')		
 														
 	def test_match_snp(self):
-		self.assertEqual(match_snp('A') ,'T' )
-		self.assertEqual(match_snp('T') ,'A' )
-		self.assertEqual(match_snp('C') ,'G' )
-		self.assertEqual(match_snp('G') ,'C' )
-		self.assertRaises(ValueError, 	match_snp, 'F')
+		self.assertEqual(
+					match_snp('A'),
+					'T')
+		self.assertEqual(
+					match_snp('T'),
+					'A')
+		self.assertEqual(
+					match_snp('C'),
+					'G')
+		self.assertEqual(
+					match_snp('G'),
+					'C')
+		self.assertRaises(ValueError, match_snp, 'F')
 
-	#def test_allele_comp_check(self):
+	def test_allele_comp_check(self):
+		self.assertEqual(
+			allele_comp_check('A,C', 16),
+			'T,G')
+		self.assertEqual(
+			allele_comp_check('A,C', 0),
+			'A,C')
+		self.assertEqual(
+			allele_comp_check('A,C,G', 272),
+			'T,G,C')
+		self.assertEqual(
+			allele_comp_check('A', 16),
+			'T')
+
 
 if __name__ == "__main__":
 
