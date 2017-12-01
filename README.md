@@ -64,6 +64,9 @@ The .sam fields that act as 'keys' to this puzzle are the following:
 			'52M1D33M' == 52 matches, 1 deletion, 33 matches
 			
 			'85M' == 85 matches
+		Note a deletion is a removal of a bp from the reference genome to match
+		it to the short read, while an insertion is bases found in the 
+		short read that are not in the reference genome.
 			
 
 
