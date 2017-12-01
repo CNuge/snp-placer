@@ -18,7 +18,8 @@ def sam_subset(snp_names, sam_file_df):
 def sam_polymorphism_column_merger(sam_dataframe, snp_dataframe):
 	"""grab the bp, and polymorphisms from the snp dataframe
 	note that if two snps on one contig, there will be multiple rows for that snp"""
-	return pd.merge(sam_dataframe, snp_dataframe, how='left',left_on='Qname', right_on='SNP_name')
+	return pd.merge(sam_dataframe, snp_dataframe, 
+					how='left',left_on='Qname', right_on='SNP_name')
 
 
 def calculate_new_bp_data(sam_dataframe):
@@ -27,16 +28,22 @@ def calculate_new_bp_data(sam_dataframe):
 		position of the bp based on cigar alignment 
 		apply cigarParse bp adjustment to each row"""
 	sam_dataframe['adjusted_bp_SNP_location'] = sam_dataframe.apply(
-		lambda x: cigarParse.cigar_string_change(x['Sequence'], x['bp_SNP_location'], x['Cigar']),axis=1)
+		lambda x: cigarParse.cigar_string_change(x['Sequence'], 
+													x['bp_SNP_location'], 
+													x['Cigar']) , axis=1)
 	""" count the alignment length for each row using cigar """
 	sam_dataframe['alignment_length'] = sam_dataframe.apply(
-		lambda x: cigarParse.alignment_length(x['Cigar']), axis=1)
+		lambda x: cigarParse.alignment_length(x['Cigar']) , axis=1)
 	return sam_dataframe
+
 
 def snp_placement_dataframe(sam_dataframe):
 	"""apply snp_contig_location across a dataframe """
 	sam_dataframe['contig_location'] = sam_dataframe.apply(
-		lambda x: samParse.snp_contig_location(x['Flag'], x['Pos'], x['adjusted_bp_SNP_location'], x['alignment_length']), axis=1)
+		lambda x: samParse.snp_contig_location(x['Flag'], 
+												x['Pos'], 
+												x['adjusted_bp_SNP_location'], 
+												x['alignment_length']), axis=1)
 	return sam_dataframe
 
 
@@ -64,8 +71,8 @@ def output_to_vcf(output_df):
 	vcf_out.columns =['CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
 	return vcf_out
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
 	#read in sam file
 	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value']
 	# if you have more columns, change this!
