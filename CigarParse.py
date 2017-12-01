@@ -10,7 +10,13 @@ def cigar_cutter(cigar):
 
 
 def adjust_bp(bp_of_snp, cigar_dat):
-	""" scan the cigar data, making front trims, insertions, and deletions"""
+	""" scan the cigar data, making front trims, insertions, and deletions
+		This makes the changes relative to the REFERENCE GENOME's base pairs
+		Thereby orienting the SNPS correctly
+		i.e. a sequence with a SNP at 20, who's cigar is 10M5D10M would have the 
+		SNP 5 positions furhter right then where it is indicated on the short read at 25
+		Similarly, a 10M5I10M would have the SNP 5bp left of the indiction on the short read
+		as five base pairs are skipped over and not used in the reference genome"""
 	change_to_bp = 0
 	bp_scan = 0
 	for x, cigar_bit in enumerate(cigar_dat):
@@ -18,15 +24,15 @@ def adjust_bp(bp_of_snp, cigar_dat):
 			""" count the matches towards the scan, no change to location"""
 			bp_scan += cigar_bit[0]		
 		elif cigar_bit[1] == 'D':
-			"""minus one from location, move bp scan count up"""
-			change_to_bp -= cigar_bit[0]
-			bp_scan += cigar_bit[0]
-			#exception: if the deleted bp housed the SNP
-			if bp_scan == bp_of_snp:
-				return 'snp_outside_aligned_region'		
-		elif cigar_bit[1] == 'I':
 			"""add one to location, no change to scan count"""
 			change_to_bp += cigar_bit[0]
+		elif cigar_bit[1] == 'I':
+			"""minus one from location, move bp scan count up"""
+			change_to_bp -= cigar_bit[0]
+			bp_scan += cigar_bit[0]	
+			#exception: if the inserted bp housed the SNP
+			if bp_scan == bp_of_snp:
+				return 'snp_outside_aligned_region'
 		elif cigar_bit[1] == 'S' and (x != (len(cigar_dat) - 1)):
 			"""find the soft clipping strings, subtract from bp location"""
 			change_to_bp -= cigar_bit[0]
@@ -34,8 +40,8 @@ def adjust_bp(bp_of_snp, cigar_dat):
 		elif cigar_bit[1] == 'S':
 			bp_scan += cigar_bit[0]
 
-		""" if the scan has passed the snp, we can return the result,"""
-		"""	as no more changes will happen"""
+		""" if the scan has passed the snp, return the result
+			as no more changes are needed"""
 		if bp_scan >= bp_of_snp:
 				return (bp_of_snp + change_to_bp)
 
@@ -104,15 +110,15 @@ class CigarTests(unittest.TestCase):
 	def test_adjust_bp(self):
 		self.assertEqual(
 			adjust_bp(70 ,[(52, 'M'), (1, 'D'), (33, 'M')]),
-			69)
+			71)
 		self.assertEqual(
 			adjust_bp(70 ,[(52, 'M'), (5, 'I'), (33, 'M')]),
-			75)
+			65)
 		self.assertEqual(
 			adjust_bp(33, [(45,'M'),(23,'S')]),
 			33)
 		self.assertEqual(
-			adjust_bp(53, [(52, 'M'), (1, 'D'), (33, 'M')]),
+			adjust_bp(53, [(52, 'M'), (1, 'I'), (33, 'M')]),
 			'snp_outside_aligned_region')
 
 	def test_fringe_snp_check(self):
@@ -145,15 +151,18 @@ class CigarTests(unittest.TestCase):
 	def test_cigar_string_change(self):
 		self.assertEqual(
 			cigar_string_change(70 ,'52M1D33M'),
-			69)
+			71)
+		self.assertEqual(
+			cigar_string_change(15 ,'52M1D33M'),
+			15)
 		self.assertEqual(
 			cigar_string_change(70 ,'52M5I33M'),
-			75)
+			65)
 		self.assertEqual(
 			cigar_string_change(33, '45M23S'),
 			33)
 		self.assertEqual(
-			cigar_string_change(53, '52M1D33M'),
+			cigar_string_change(53, '52M1I33M'),
 			'snp_outside_aligned_region')
 		self.assertEqual(
 			cigar_string_change(46, '45M23S'),
