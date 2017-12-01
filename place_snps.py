@@ -122,8 +122,6 @@ if __name__ == '__main__':
 	#take the brackets out of the query section
 	sam_dat['Qname'] = [x.split('(')[0] for x in sam_dat['Qname']]
 
-
-
 	#read in SNP files
 
 	snp_input_file1 = './example_data/numeric_ex.txt'
