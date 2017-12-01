@@ -55,7 +55,7 @@ def allele_comp_check(in_allele, flag):
 
 class SamTests(unittest.TestCase):
 	
-	#def test_snp_contig_location(self):	
+	def test_snp_contig_location(self):	
 		
 	def test_compliment_name(self):
 		self.assertEqual(
@@ -77,7 +77,7 @@ class SamTests(unittest.TestCase):
 		self.assertEqual(match_snp('G') ,'C' )
 		self.assertRaises(ValueError, 	match_snp, 'F')
 
-	#def test_allele_comp_check(self):
+	def test_allele_comp_check(self):
 
 
 if __name__ == "__main__":
