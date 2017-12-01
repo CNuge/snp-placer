@@ -68,6 +68,7 @@ class SamTests(unittest.TestCase):
 		self.assertEqual(
 					snp_contig_location(272, 100, 24, 50),
 					126)
+	
 	def test_compliment_name(self):
 		self.assertEqual(
 					compliment_name('CMN001', 0),
