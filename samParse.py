@@ -46,6 +46,14 @@ def allele_comp_check(in_allele, flag):
 			return ','.join(out_alleles)
 
 
+class SamTests(unittest.TestCase):
+	def test_snp_contig_location(self):
+
+	def test_compliment_name(self):
+
+	def test_match_snp(self):
+
+	def test_allele_comp_check(self)
 
 
 if __name__ == '__main__':
