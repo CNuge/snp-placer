@@ -6,4 +6,5 @@ install:
 
 script:
     - python samParse.py
+script:
     - python cigarParse.py
