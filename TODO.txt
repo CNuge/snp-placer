@@ -18,3 +18,5 @@ DONE	- cigarparse - have these in a ifmain at the bottom of the file.
 DONE #7 split place_snps.py functions into modules in a logical manner
 
 #8 rename place_snps.py to a snazzy executable and add a #!
+
+#9 get the cool green passing things on your github
