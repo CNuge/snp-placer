@@ -76,21 +76,16 @@ def alignment_length(cigar_string):
 	for pair in cigar_cutter(cigar_string):
 		if pair[1] == 'M' or pair[1] == 'D':
 			align_length += pair[0]
+	"""
+	'I' is more sequence on the short read then the referece, thefore
+	don't add or subtract from position
+	'S' is trimmed so these are ignored as well
+	'D' is delection from reference relative to short read, so these 
+	are counted 
+	'M' is match so these are counted
+	"""
 	return align_length
 
-"""
-def alignment_length(cigar_string):
-	#take a list of cigar data tuples count total length of alignment
-	cigar_cutter_output = cigar_cutter(cigar_string)
-	align_length = 0
-	for pair in cigar_cutter_output:
-		if pair[1] == 'M' or pair[1] == 'D':
-			align_length += pair[0]
-		elif pair[1] == 'S' or pair[1] == 'I':
-			align_length -= pair[0]
-	return align_length
-
-"""
 
 class CigarTests(unittest.TestCase):
 	def test_cigar_cutter(self):
