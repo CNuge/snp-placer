@@ -1,4 +1,5 @@
 import cigarParse
+import samParse
 import pandas as pd
 from pandas import Series, DataFrame
 from itertools import groupby
@@ -32,6 +33,11 @@ def calculate_new_bp_data(sam_dataframe):
 		lambda x: cigarParse.alignment_length(x['Cigar']), axis=1)
 	return sam_dataframe
 
+def snp_placement_dataframe(sam_dataframe):
+	"""apply snp_contig_location across a dataframe """
+	sam_dataframe['contig_location'] = sam_dataframe.apply(
+		lambda x: snp_contig_location(x['Flag'], x['Pos'], x['adjusted_bp_SNP_location'], x['alignment_length']), axis=1)
+	return sam_dataframe
 
 def snp_contig_location(flag, pos, adjusted_bp_location, alignment_length):
 	""" determine new bp position of the snp on the larger contig"""
@@ -46,12 +52,6 @@ def snp_contig_location(flag, pos, adjusted_bp_location, alignment_length):
 		return (pos + alignment_length - adjusted_bp_location)
 	else:
 		return '-'
-
-def snp_placement_dataframe(sam_dataframe):
-	"""apply snp_contig_location across a dataframe """
-	sam_dataframe['contig_location'] = sam_dataframe.apply(
-		lambda x: snp_contig_location(x['Flag'], x['Pos'], x['adjusted_bp_SNP_location'], x['alignment_length']), axis=1)
-	return sam_dataframe
 
 def compliment_name(name, flag):
 	""" if the alignment is a reverse, add _comp to the end of its identification """
