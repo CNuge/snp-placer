@@ -6,7 +6,7 @@
 
 #3. add unittests to:
 	- filter sam file - put this in a 'tests.py' file
-	- cigarparse - have these in a ifmain at the bottom of the file.
+DONE	- cigarparse - have these in a ifmain at the bottom of the file.
 	- split data - put this in a 'tests.py' file
 
 #4 add a filter example file to the example data.

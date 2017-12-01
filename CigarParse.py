@@ -74,10 +74,23 @@ def alignment_length(cigar_string):
 	#Take a list of cigar data tuples count total length of alignment 
 	align_length = 0
 	for pair in cigar_cutter(cigar_string):
-		if pair[1] == 'M' or pair[1] == 'I':
+		if pair[1] == 'M' or pair[1] == 'D':
 			align_length += pair[0]
 	return align_length
 
+"""
+def alignment_length(cigar_string):
+	#take a list of cigar data tuples count total length of alignment
+	cigar_cutter_output = cigar_cutter(cigar_string)
+	align_length = 0
+	for pair in cigar_cutter_output:
+		if pair[1] == 'M' or pair[1] == 'D':
+			align_length += pair[0]
+		elif pair[1] == 'S' or pair[1] == 'I':
+			align_length -= pair[0]
+	return align_length
+
+"""
 
 class CigarTests(unittest.TestCase):
 	def test_cigar_cutter(self):
@@ -120,17 +133,17 @@ class CigarTests(unittest.TestCase):
 			alignment_length('74M11S'),
 			74)
 		self.assertEqual(
-			alignment_length('52M1D33M'),
-			85)
+			alignment_length('17M9D68M'),
+			94)
 		self.assertEqual(
-			alignment_length('52M1I33M'),
-			86)
+			alignment_length('21M6I58M'),
+			79)
 		self.assertEqual(
 			alignment_length('85M'),
 			85)
 		self.assertEqual(
 			alignment_length('31M8D2I46M8S'),
-			79)
+			85)
 
 	def test_cigar_string_change(self):
 		self.assertEqual(
