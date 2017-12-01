@@ -92,7 +92,6 @@ class SamTests(unittest.TestCase):
 
 	#def test_allele_comp_check(self):
 
-
 if __name__ == "__main__":
 
 	unittest.main()
