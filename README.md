@@ -1,4 +1,5 @@
 # SNP genome placement
+## Currently under renovation - I'm adding in a bunch of tests and refactoring code so email me for a stable version!
 
 1. This program allows you to accurately place snps on a genome after you have conducted an alignment
 of short sequence reads against a genome. Assuming the position of the SNP on the short read
