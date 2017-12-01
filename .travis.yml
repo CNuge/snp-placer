@@ -5,7 +5,8 @@ install:
     - pip install -r requirements.txt
 
 script:
-    #- python cigarParse.py
+    - ./cigarParse.py
+    # python: can't open file 'cigarParse.py': [Errno 2] No such file or directory
     - python samParse.py
 
 notifications:
