@@ -49,7 +49,8 @@ def snp_placement_dataframe(sam_dataframe):
 
 def output_to_vcf(output_df):
 	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
-	# if your names are numeric, implement line 60	
+
+#test this
 	if type(output_df['SNP_name'][0]) == str:
 		output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)		
 	else:
@@ -73,6 +74,8 @@ def output_to_vcf(output_df):
 
 
 if __name__ == '__main__':
+
+#clean this
 	#read in sam file
 	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value']
 	# if you have more columns, change this!
