@@ -3,6 +3,7 @@ import unittest
 def snp_contig_location(flag, pos, adjusted_bp_location, alignment_length):
 	""" determine new bp position of the snp on the larger contig"""
 	try:
+		""" make sure a number was passed in, if not return empty bp """
 		adjusted_bp_location / 1
 	except:
 		return '-' 
@@ -39,7 +40,7 @@ def match_snp(allele):
 
 
 def allele_comp_check(in_allele, flag):
-	""" if alignment is a reverse, flip the allele to the complimentary base pair. """
+	""" if alignment is a reverse, flip the alleles to the complimentary nucleotides """
 	if flag == 0 or flag == 256:
 		return in_allele
 	elif flag == 16 or flag == 272:
@@ -56,7 +57,10 @@ def allele_comp_check(in_allele, flag):
 class SamTests(unittest.TestCase):
 	
 	def test_snp_contig_location(self):	
-		
+		self.assertEqual(
+					snp_contig_location(flag, pos, adjusted_bp_location, alignment_length),
+					final pos)
+
 	def test_compliment_name(self):
 		self.assertEqual(
 					compliment_name('CMN001', 0),
@@ -69,7 +73,8 @@ class SamTests(unittest.TestCase):
 					'CMN001')	
 		self.assertEqual(
 					compliment_name('CMN001', 272),
-					'CMN001_comp')											
+					'CMN001_comp')		
+														
 	def test_match_snp(self):
 		self.assertEqual(match_snp('A') ,'T' )
 		self.assertEqual(match_snp('T') ,'A' )
