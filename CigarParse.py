@@ -72,13 +72,14 @@ def cigar_string_change(bp_of_snp, cigar_string):
 
 def alignment_length(cigar_string):
 	"""
-	Take a list of cigar data tuples count total length of alignment 
-	'I' is more sequence on the short read then the referece, thefore
-	don't add or subtract from position
-	'S' is trimmed so these are ignored as well
-	'D' is deletion from short read relative to the reference, so these 
-	are counted 
-	'M' is match so these are counted
+	Take a list of cigar data tuples count total length of alignment: 
+	'M' is match to the reference so these are counted
+	'D' is deletion from  the reference, so these are counted in the length
+	
+	'I' is more sequence on the short read not on the referece, thefore
+	don't add to length of sequence covered on the reference
+	
+	'S' is trimmed so don't add to length of sequence covered on the reference
 	"""
 	align_length = 0
 	for pair in cigar_cutter(cigar_string):
