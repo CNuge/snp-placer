@@ -1,6 +1,5 @@
-from itertools import groupby
 import unittest
-
+from itertools import groupby
 
 def cigar_cutter(cigar):
 	"""split a cigar string into tuples of bp# and cigar identifier """
