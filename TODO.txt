@@ -15,6 +15,6 @@ DONE	- cigarparse - have these in a ifmain at the bottom of the file.
 
 #6 change the header in the snp file input to shorter names!
 
-#7 split place_snps.py functions into modules in a logical manner
+DONE #7 split place_snps.py functions into modules in a logical manner
 
 #8 rename place_snps.py to a snazzy executable and add a #!

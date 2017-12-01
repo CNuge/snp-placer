@@ -55,12 +55,19 @@ def allele_comp_check(in_allele, flag):
 
 
 class SamTests(unittest.TestCase):
-	
 	def test_snp_contig_location(self):	
 		self.assertEqual(
-					snp_contig_location(flag, pos, adjusted_bp_location, alignment_length),
-					final pos)
-
+					snp_contig_location(0, 100, 12, 50),
+					111)
+		self.assertEqual(
+					snp_contig_location(256, 100, 24, 50),
+					123)
+		self.assertEqual(
+					snp_contig_location(16, 100, 12, 50),
+					138)
+		self.assertEqual(
+					snp_contig_location(272, 100, 24, 50),
+					126)
 	def test_compliment_name(self):
 		self.assertEqual(
 					compliment_name('CMN001', 0),
@@ -82,7 +89,7 @@ class SamTests(unittest.TestCase):
 		self.assertEqual(match_snp('G') ,'C' )
 		self.assertRaises(ValueError, 	match_snp, 'F')
 
-	def test_allele_comp_check(self):
+	#def test_allele_comp_check(self):
 
 
 if __name__ == "__main__":
