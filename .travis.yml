@@ -5,8 +5,8 @@ install:
     - pip install -r requirements.txt
 
 script:
-    #- python cigarParse.py
-    - python samParse.py
+    #- 
+    - python samParse.py; python cigarParse.py
 
 notifications:
   email: false
