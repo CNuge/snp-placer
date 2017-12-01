@@ -59,8 +59,8 @@ class SamTests(unittest.TestCase):
 		self.assertEqual(match_snp('T') ,'A' )
 		self.assertEqual(match_snp('C') ,'G' )
 		self.assertEqual(match_snp('G') ,'C' )
-		self.assertRaises(ValueError, 	match_snp, 'F')	
-		
+		self.assertRaises(ValueError, 	match_snp, 'F')
+
 		
 	def test_compliment_name(self):
 
