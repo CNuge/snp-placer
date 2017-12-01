@@ -21,15 +21,22 @@ def compliment_name(name, flag):
 	else:
 		return name
 		
-def match_snp(in_allele):
-	if in_allele == 'A':
+def match_snp(allele):
+	allele = allele.upper()
+	if allele == 'A':
 		return 'T'
-	elif in_allele == 'T':
+	elif allele == 'T':
 		return 'A'
-	elif in_allele == 'C':
+	elif allele == 'C':
 		return 'G'
-	elif in_allele == 'G':
+	elif allele == 'G':
 		return 'C'
+	elif allele == 'N':
+		return 'N'
+	else: 
+		raise ValueError(
+			'Need valid nucleotide (ATGC) or N\n %s was passed in ' % (allele))
+
 
 def allele_comp_check(in_allele, flag):
 	""" if alignment is a reverse, flip the allele to the complimentary base pair. """
@@ -48,14 +55,21 @@ def allele_comp_check(in_allele, flag):
 
 class SamTests(unittest.TestCase):
 	def test_snp_contig_location(self):
-
+		self.assertEqual(match_snp('A') ,'T' )
+		self.assertEqual(match_snp('T') ,'A' )
+		self.assertEqual(match_snp('C') ,'G' )
+		self.assertEqual(match_snp('G') ,'C' )
+		self.assertRaises(ValueError, 	match_snp, 'F')	
+		
+		
 	def test_compliment_name(self):
 
 	def test_match_snp(self):
 
-	def test_allele_comp_check(self)
+	def test_allele_comp_check(self):
 
 
 if __name__ == "__main__":
 
 	unittest.main()
+
