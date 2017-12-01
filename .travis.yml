@@ -3,9 +3,7 @@ python:
     - "3.6"
 install:
     - pip install -r requirements.txt
-    - pip install coveralls
+
 script:
     - python cigarParse.py
     - python samParse.py
-after_success:
-    - coveralls
