@@ -4,7 +4,7 @@ import samParse
 import pandas as pd
 from pandas import Series, DataFrame
 from itertools import groupby
-
+import gc
 
 def sam_subset(snp_names, sam_file_df):
 	""" build a dictonary of relevant_sam_information
@@ -84,54 +84,69 @@ if __name__ == '__main__':
 	parser.add_argument('-p', '--snpfile', nargs = '+', required = True,
 							help = 'The snp file(s) you wish to process. Pass in multiple files behind one flag. \
 							i.e.  -p ex1.txt ex2.txt')
-
+	parser.add_argument('-o', '--output', default = 'placed_snps.vcf'
+							help = 'The name of the output .vcf file. Default is placed_snps.vcf')
 	args = parser.parse_args()
 
-	#current test:
-	#args = parser.parse_args('-s ./example_data/numeric_ex.sam ./example_data/string_name_ex.sam -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
 
-
-#clean this
+#clean this and come up with a way to do it dynamically
 	#read in sam file
 	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value']
 	# if you have more columns, change this!
 	#sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','bonus']
 
 
-
 	if len(args.samfile) == 1:
-
-		snp_input_dat = pd.read_table(args.samfile[0], sep='\t', names = sam_header, index_col=None)
-
+		sam_dat = pd.read_table(args.samfile[0], sep='\t', names = sam_header, index_col=None)
 	else:
 		samfile_inputs = []
 		for i in args.samfile:
 			samfile_inputs.append(pd.read_table(i, sep='\t', index_col=None))
-		snp_input_dat = pd.concat(samfile_inputs)
-
+		sam_dat = pd.concat(samfile_inputs)
+	
 	#take the brackets out of the query section
-	snp_input_dat['Qname'] = [x.split('(')[0] for x in sam_dat['Qname']]
+	sam_dat['Qname'] = [x.split('(')[0] for x in sam_dat['Qname']]
 
 
+	if len(args.snpfile) == 1:
+		snp_input_dat= pd.read_table(args.snpfile, sep='\t', index_col=None)
+	else:
+		snpfile_inputs = []
+		for i in args.snpfile:
+			snpfile_inputs.append(pd.read_table(i, sep='\t', index_col=None))
+		snp_input_dat = pd.concat(snpfile_inputs)
+
+	samfile_inputs = [] #for garbage collection
+	snpfile_inputs = [] #for garbage collection
+	gc.collect()
+
+"""
+	#current tests:
+	#args = parser.parse_args('-s ./example_data/numeric_ex.sam ./example_data/string_name_ex.sam -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
+	#args = parser.parse_args('-s ./example_data/numeric_ex.sam  -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
+
+	#example data for testing
 	#read in SNP files
+	sam_input_file1 = 'string_name_ex.sam'
+	sam_input_file2 = 'numeric_ex.sam'
 
 	snp_input_file1 = './example_data/numeric_ex.txt'
 	snp_input_file2 = './example_data/string_name_ex.txt'
 
 	snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
 
-# if multiple inputs, use this
-#	snp_input_file2 = './snp_files/Tassel_PSV_info.txt'
-#	snp_dat2 = pd.read_table(snp_input_file2, sep='\t', index_col=None)
+	polymorphism_vcf.to_csv('example_data.vcf', sep='\t',index=False)
 
-#	snp_input_file3 = './snp_files/Tassel_SNP_info.txt'
-#	snp_dat3 = pd.read_table(snp_input_file3, sep='\t', index_col=None)
+	Potential sources of error:
+	There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
 
-#	frames=[snp_dat1,snp_dat2,snp_dat3]
-#	snp_input_dat = pd.concat(frames)
+	1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75 (or delete the colums)
 
-	#snp data now avaliable
-	#snp_input_dat.head()
+	2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
+	move the # from line 60 to line 61 to make the necessary type change.
+
+	3. add an argument parser to this 
+"""
 
 	#subset the sam alignments for rows matching the snp input
 	snp_data_on_contigs = sam_subset(snp_input_dat['SNP_name'], sam_dat)
@@ -146,24 +161,5 @@ if __name__ == '__main__':
 
 	polymorphism_vcf = output_to_vcf(all_polymorphism_data)
 
-	polymorphism_vcf.to_csv('example_data.vcf', sep='\t',index=False)
-
-"""
-Potential sources of error:
-There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
-
-1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75 (or delete the colums)
-
-2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
-move the # from line 60 to line 61 to make the necessary type change.
-
-3. add an argument parser to this 
-
-"""
-
-
-
-
-
-
+	polymorphism_vcf.to_csv(args.output, sep='\t',index=False)
 
