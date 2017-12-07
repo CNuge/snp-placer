@@ -1,3 +1,4 @@
+import argparse
 import cigarParse
 import samParse
 import pandas as pd
@@ -75,18 +76,42 @@ def output_to_vcf(output_df):
 
 if __name__ == '__main__':
 
+
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-s','--samfile', nargs = '+', required = True,
+							help = 'The sam file(s) you wish to process. Pass in multiple files behind one flag. \
+							i.e.  -s ex1.sam ex2.sam')
+	parser.add_argument('-p', '--snpfile', nargs = '+', required = True,
+							help = 'The snp file(s) you wish to process. Pass in multiple files behind one flag. \
+							i.e.  -p ex1.txt ex2.txt')
+
+	args = parser.parse_args()
+
+	#current test:
+	#args = parser.parse_args('-s ./example_data/numeric_ex.sam ./example_data/string_name_ex.sam -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
+
+
 #clean this
 	#read in sam file
 	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value']
 	# if you have more columns, change this!
 	#sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','bonus']
 
-	sam_input_file1 = './example_data/numeric_ex.sam'
-	sam_input_file2 = './example_data/string_name_ex.sam'
-	sam_dat = pd.read_table(sam_input_file1, sep='\t', names = sam_header, index_col=None)
+
+
+	if len(args.samfile) == 1:
+
+		snp_input_dat = pd.read_table(args.samfile[0], sep='\t', names = sam_header, index_col=None)
+
+	else:
+		samfile_inputs = []
+		for i in args.samfile:
+			samfile_inputs.append(pd.read_table(i, sep='\t', index_col=None))
+		snp_input_dat = pd.concat(samfile_inputs)
 
 	#take the brackets out of the query section
-	sam_dat['Qname'] = [x.split('(')[0] for x in sam_dat['Qname']]
+	snp_input_dat['Qname'] = [x.split('(')[0] for x in sam_dat['Qname']]
+
 
 	#read in SNP files
 

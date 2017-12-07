@@ -55,7 +55,7 @@ if __name__ == '__main__':
 	#input_sam_file = './example_data/unfiltered_sam_data.sam'
 	#secondary_alignments_out = './example_data/secondary_alignments.sam'
 	#alignments_one_location = './example_data/samfile_one_location_alignments.sam'
-
+	# for test:args = parser.parse_args(['./example_data/unfiltered_sam_data.sam'])
 	parser = argparse.ArgumentParser()
 	parser.add_argument('input', type = str, 
 		help = 'The filename of the .sam file you wish to filter.')
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 	parser.add_argument('-s', '--secondary', type = str, default = 'samfile_two_location_alignments.sam',
 		help = 'Optional: a name for the output .sam file containing the alignments to two or more locations.\n\
 		Default is: samfile_multiple_location_alignments.sam ')
-	args = parser.parse_args(['./example_data/unfiltered_sam_data.sam'])
+	args = parser.parse_args()
 
 
 	filter_sam(args.input, args.primary, args.secondary)
