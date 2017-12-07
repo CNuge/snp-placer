@@ -6,9 +6,20 @@ import argparse
 	3. secondary aligments (2+ locations)
 
 	For 2. and 3. new .sam files are produced with all 
-	information retained from the alignment section"""
+	information retained from the alignment section
 
-def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out)
+	default output names are:
+	samfile_one_location_alignments.sam
+	secondary_alignments.sam
+
+	These names can be changed using the input flags
+	-p for primary (one location) outputs and 
+	-s for secondary (multiple location) outputs
+	"""
+
+def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out):
+	""" take an input .sam file, remove the header lines and split the results
+		into alignments to one location and alignments to two+ locations """
 	with open(input_sam_file) as file:
 		for line in file:
 			if line[0] == "@":
@@ -40,7 +51,7 @@ if __name__ == '__main__':
 
 	input_sam_file = './example_data/unfiltered_sam_data.sam'
 
-	secondary_alignments_out = './example_data/example_secondary_alignments.sam'
+	secondary_alignments_out = './example_data/secondary_alignments.sam'
 	alignments_one_location = './example_data/samfile_one_location_alignments.sam'
 
 
