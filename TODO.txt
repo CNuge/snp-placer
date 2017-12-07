@@ -2,12 +2,13 @@
 
 DONE #1. add an argument parser to filter_sam_file.py
 
-#2. add an argument parser to place_snps.py
+DONE #2. add an argument parser to place_snps.py
 
 #3. add unittests to:
 DONE	- cigarparse - have these in a ifmain at the bottom of the file.
 	- split data - put this in a 'tests.py' file
 	- filter sam file - put this in a 'tests.py' file
+	- cleanup the input/output for place_snps.py
 
 DONE #4 add a filter example file to the example data.
 
