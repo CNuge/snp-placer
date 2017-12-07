@@ -7,6 +7,21 @@ from pandas import Series, DataFrame
 from itertools import groupby
 import gc
 
+
+def read_input_files(list_of_inputs, names = None):
+	""" read in a list of files (from argparse), turn them into dataframes
+		and concatenate them if the length of the list exceeds 1."""
+	if len(list_of_inputs) == 1:
+		data = pd.read_table(args.samfile[0], sep='\t', names = names, index_col=None)
+
+	else:
+		data_files = []
+		for i in list_of_inputs:
+			data_files.append(pd.read_table(i, sep='\t',names = names, index_col=None))
+		data = pd.concat(data_files)
+	return data
+
+
 def sam_subset(snp_names, sam_file_df):
 	""" build a dictonary of relevant_sam_information
 		for each snp, grab the following from the sam file:
@@ -51,8 +66,7 @@ def snp_placement_dataframe(sam_dataframe):
 
 def output_to_vcf(output_df):
 	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
-
-#test this
+	#test this
 	if type(output_df['SNP_name'][0]) == str:
 		output_df['adj_name'] = output_df['SNP_name'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp_SNP_location'].astype(str)		
 	else:
@@ -97,29 +111,10 @@ if __name__ == '__main__':
 	#sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','bonus']
 
 
-	if len(args.samfile) == 1:
-		sam_dat = pd.read_table(args.samfile[0], sep='\t', names = sam_header, index_col=None)
-	else:
-		samfile_inputs = []
-		for i in args.samfile:
-			samfile_inputs.append(pd.read_table(i, sep='\t', index_col=None))
-		sam_dat = pd.concat(samfile_inputs)
+	sam_dat =  read_input_files(args.samfile, names = sam_header)
 	
-	#take the brackets out of the query section
-	sam_dat['Qname'] = [x.split('(')[0] for x in sam_dat['Qname']]
+	snp_input_dat = read_input_files(args.snpfile, names = sam_header)
 
-
-	if len(args.snpfile) == 1:
-		snp_input_dat= pd.read_table(args.snpfile, sep='\t', index_col=None)
-	else:
-		snpfile_inputs = []
-		for i in args.snpfile:
-			snpfile_inputs.append(pd.read_table(i, sep='\t', index_col=None))
-		snp_input_dat = pd.concat(snpfile_inputs)
-
-	samfile_inputs = [] #for garbage collection
-	snpfile_inputs = [] #for garbage collection
-	gc.collect()
 
 """
 	#current tests:
