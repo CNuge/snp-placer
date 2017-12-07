@@ -2,26 +2,6 @@ import os
 import unittest
 import filter_sam_file
 
-
-"""
-primary_example_file = open('example_data/samfile_one_location_alignments.sam','r')
-self._primary_example = primary_example_file.read()
-primary_example_file.close()
-
-primary_test_file = open('example_data/unittest_out1.sam' , 'r')
-self._primary_test = primary_test_file.read()
-primary_test_file.close()
-
-
-secondary_example_file = open('example_data/secondary_alignments.sam','r')
-self._secondary_example = secondary_example_file.read()
-secondary_example_file.close()
-
-secondary_test_file = open('example_data/unittest_out2.sam' , 'r')
-self._secondary_test = secondary_test_file.read()
-secondary_test_file.close()
-
-"""
 class SamFilterTests(unittest.TestCase):
 	@classmethod
 	def setUpClass(self):
@@ -61,7 +41,6 @@ if __name__ == '__main__':
 	filter_sam_file.filter_sam('example_data/unfiltered_sam_data.sam', 
 								'example_data/unittest_out1.sam', 
 								'example_data/unittest_out2.sam')
-
 
 	unittest.main()
 
