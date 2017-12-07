@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import unittest
 import filter_sam_file
