@@ -3,6 +3,7 @@ import unittest
 import filter_sam_file
 
 class SamFilterTests(unittest.TestCase):
+	""" Test the functionality of the filter sam file module """
 	@classmethod
 	def setUpClass(self):
 		""" read in the data nexessary for the tests """
