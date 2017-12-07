@@ -1,6 +1,6 @@
 
 
-#1. add an argument parser to filter_sam_file.py
+DONE #1. add an argument parser to filter_sam_file.py
 
 #2. add an argument parser to place_snps.py
 
