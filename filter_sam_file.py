@@ -45,8 +45,8 @@ def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out
 				add_to.write(line)
 				add_to.close()
 			else:
-#account for these!				
-""" there are other flags in this column, that do no appear in the dataset I'm working on"""
+				#account for these!				
+				""" there are other flags in this column, that do no appear in the dataset I'm working on"""
 				print('this line not in the categories this program accounts for:\n')
 				print(line)
 
