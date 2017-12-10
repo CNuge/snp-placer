@@ -99,7 +99,7 @@ if __name__ == '__main__':
 	parser.add_argument('-p', '--snpfile', nargs = '+', required = True,
 							help = 'The snp file(s) you wish to process. Pass in multiple files behind one flag. \
 							i.e.  -p ex1.txt ex2.txt')
-	parser.add_argument('-o', '--output', default = 'placed_snps.vcf'
+	parser.add_argument('-o', '--output', default = 'placed_snps.vcf',
 							help = 'The name of the output .vcf file. Default is placed_snps.vcf')
 	args = parser.parse_args()
 
@@ -116,33 +116,33 @@ if __name__ == '__main__':
 	snp_input_dat = read_input_files(args.snpfile, names = sam_header)
 
 
-"""
-	#current tests:
-	#args = parser.parse_args('-s ./example_data/numeric_ex.sam ./example_data/string_name_ex.sam -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
-	#args = parser.parse_args('-s ./example_data/numeric_ex.sam  -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
+	"""
+		#current tests:
+		#args = parser.parse_args('-s ./example_data/numeric_ex.sam ./example_data/string_name_ex.sam -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
+		#args = parser.parse_args('-s ./example_data/numeric_ex.sam  -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
 
-	#example data for testing
-	#read in SNP files
-	sam_input_file1 = 'string_name_ex.sam'
-	sam_input_file2 = 'numeric_ex.sam'
+		#example data for testing
+		#read in SNP files
+		sam_input_file1 = 'string_name_ex.sam'
+		sam_input_file2 = 'numeric_ex.sam'
 
-	snp_input_file1 = './example_data/numeric_ex.txt'
-	snp_input_file2 = './example_data/string_name_ex.txt'
+		snp_input_file1 = './example_data/numeric_ex.txt'
+		snp_input_file2 = './example_data/string_name_ex.txt'
 
-	snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
+		snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
 
-	polymorphism_vcf.to_csv('example_data.vcf', sep='\t',index=False)
+		polymorphism_vcf.to_csv('example_data.vcf', sep='\t',index=False)
 
-	Potential sources of error:
-	There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
+		Potential sources of error:
+		There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
 
-	1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75 (or delete the colums)
+		1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75 (or delete the colums)
 
-	2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
-	move the # from line 60 to line 61 to make the necessary type change.
+		2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
+		move the # from line 60 to line 61 to make the necessary type change.
 
-	3. add an argument parser to this 
-"""
+		3. add an argument parser to this 
+	"""
 
 	#subset the sam alignments for rows matching the snp input
 	snp_data_on_contigs = sam_subset(snp_input_dat['SNP_name'], sam_dat)
