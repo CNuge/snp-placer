@@ -98,7 +98,6 @@ def output_to_vcf(output_df):
 
 if __name__ == '__main__':
 
-
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-s','--samfile', nargs = '+', required = True,
 							help = 'The sam file(s) you wish to process. Pass in multiple files behind one flag. \
