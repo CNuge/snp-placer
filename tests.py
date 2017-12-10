@@ -41,14 +41,23 @@ class SamFilterTests(unittest.TestCase):
 
 """
 class PlaceSnpsTests(unittest.TestCase):
-	# test all of the functions for placing snps in the genome 
+	#test all of the functions for placing snps in the genome 
 	@classmethod
 	def setUpClass(self):
 
 
 	@classmethod
-	def tearDown(slef):
+	def tearDown(self):
+
+	def test_read_input_files
+	def test_sam_subset
+	def test_sam_polymorphism_column_merger
+	def test_calculate_new_bp_data
+	def test_snp_placement_dataframe
+	def test_output_to_vcf
+
 """
+
 if __name__ == '__main__':
 
 	filter_sam_file.filter_sam('example_data/unfiltered_sam_data.sam', 
