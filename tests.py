@@ -3,6 +3,7 @@
 import os
 import unittest
 import filter_sam_file
+import place_snps
 
 class SamFilterTests(unittest.TestCase):
 	""" Test the functionality of the filter sam file module """
@@ -38,7 +39,16 @@ class SamFilterTests(unittest.TestCase):
 	def test_secondary_output(self):
 		self.assertEqual(self._secondary_example, self._secondary_test)
 
+"""
+class PlaceSnpsTests(unittest.TestCase):
+	# test all of the functions for placing snps in the genome 
+	@classmethod
+	def setUpClass(self):
 
+
+	@classmethod
+	def tearDown(slef):
+"""
 if __name__ == '__main__':
 
 	filter_sam_file.filter_sam('example_data/unfiltered_sam_data.sam', 

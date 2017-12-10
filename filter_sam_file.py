@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-
 import argparse
+
 """ this program will take a .sam input file (SAMTOOLs format)
 	and separate the data into 3 categories:
 	1. no alignments (discarded)
