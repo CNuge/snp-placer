@@ -30,24 +30,22 @@ def read_sam_files(list_of_inputs):
 
 
 def sam_subset(snp_names, sam_file_df):
-	""" build a dictonary of relevant_sam_information
-		for each snp, grab the following from the sam file:
-		('Qname','Flag','Rname','Pos','MapQ','Cigar')
-		if there are two+ hit locations, add an additional
-		tuple to the dict value """
+	""" take the subset of rows from the sam file that contain snps found 
+		in the snp list. Equivalent to an inner join"""
 	sam_rows = sam_file_df.loc[sam_file_df['Qname'].isin(snp_names)]	
 	return sam_rows
 
 
 def sam_polymorphism_column_merger(sam_dataframe, snp_dataframe):
-	"""grab the bp, and polymorphisms from the snp dataframe
-	note that if two snps on one contig, there will be multiple rows for that snp"""
+	""" grab the bp, and polymorphisms from the snp dataframe
+		note that if two snps on one contig, there will be multiple 
+		rows for that snp"""
 	return pd.merge(sam_dataframe, snp_dataframe, 
 					how='left',left_on='Qname', right_on='SNP_name')
 
 
 def calculate_new_bp_data(sam_dataframe):
-	"""pass in sam df, this will call the relevant cigar functions
+	""" pass in sam df, this will call the relevant cigar functions
 		determining the length of the alignment, and the adjusted
 		position of the bp based on cigar alignment 
 		apply cigarParse bp adjustment to each row"""
@@ -115,7 +113,7 @@ if __name__ == '__main__':
 	snp_input_dat = read_input_files(args.snpfile, names = sam_header)
 
 	#subset the sam alignments for rows matching the snp input
-	snp_data_on_contigs = sam_subset(snp_input_dat['SNP_name'], sam_dat)
+	snp_data_on_contigs = sam_subset(snp_input_dat['SNP'], sam_dat)
 
 	all_polymorphism_data = sam_polymorphism_column_merger(snp_data_on_contigs, snp_input_dat)
 
