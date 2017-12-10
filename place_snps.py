@@ -12,7 +12,7 @@ def read_input_files(list_of_inputs, names = None):
 	""" read in a list of files (from argparse), turn them into dataframes
 		and concatenate them if the length of the list exceeds 1."""
 	if len(list_of_inputs) == 1:
-		data = pd.read_table(args.samfile[0], sep='\t', names = names, index_col=None)
+		data = pd.read_table(list_of_inputs[0], sep='\t', names = names, index_col=None)
 
 	else:
 		data_files = []
@@ -20,6 +20,13 @@ def read_input_files(list_of_inputs, names = None):
 			data_files.append(pd.read_table(i, sep='\t',names = names, index_col=None))
 		data = pd.concat(data_files)
 	return data
+
+
+def read_sam_files(list_of_inputs):
+	""" this calls the read_input_files and stores the sam_header """
+	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext',
+				'Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','value2']
+	return read_input_files(list_of_inputs, sam_header)
 
 
 def sam_subset(snp_names, sam_file_df):
@@ -103,46 +110,10 @@ if __name__ == '__main__':
 							help = 'The name of the output .vcf file. Default is placed_snps.vcf')
 	args = parser.parse_args()
 
-
-#clean this and come up with a way to do it dynamically
-	#read in sam file
-	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value']
-	# if you have more columns, change this!
-	#sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext','Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','bonus']
-
-
-	sam_dat =  read_input_files(args.samfile, names = sam_header)
+	#note these must receive lists as first argument
+	sam_dat =  read_sam_files(args.samfile)
 	
 	snp_input_dat = read_input_files(args.snpfile, names = sam_header)
-
-
-	"""
-		#current tests:
-		#args = parser.parse_args('-s ./example_data/numeric_ex.sam ./example_data/string_name_ex.sam -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
-		#args = parser.parse_args('-s ./example_data/numeric_ex.sam  -p ./example_data/numeric_ex.txt ./example_data/string_name_ex.txt'.split())
-
-		#example data for testing
-		#read in SNP files
-		sam_input_file1 = 'string_name_ex.sam'
-		sam_input_file2 = 'numeric_ex.sam'
-
-		snp_input_file1 = './example_data/numeric_ex.txt'
-		snp_input_file2 = './example_data/string_name_ex.txt'
-
-		snp_input_dat= pd.read_table(snp_input_file1, sep='\t', index_col=None)
-
-		polymorphism_vcf.to_csv('example_data.vcf', sep='\t',index=False)
-
-		Potential sources of error:
-		There are a few ways this script can fail that I've found, here I point them out and tell you the fix.
-
-		1. If your .sam file has extra columns on the right, you need to add these in to the sam_header list on line 75 (or delete the colums)
-
-		2. If your snp names are numeric and not strings (i.e. 76 not CAM_SNP_76) then in the script 'place_snps.py' 
-		move the # from line 60 to line 61 to make the necessary type change.
-
-		3. add an argument parser to this 
-	"""
 
 	#subset the sam alignments for rows matching the snp input
 	snp_data_on_contigs = sam_subset(snp_input_dat['SNP_name'], sam_dat)
@@ -154,7 +125,7 @@ if __name__ == '__main__':
 
 	all_polymorphism_data  = snp_placement_dataframe(all_polymorphism_data )
 
-
+	#default .vcf has name 'placed_snps.vcf'
 	polymorphism_vcf = output_to_vcf(all_polymorphism_data)
 
 	polymorphism_vcf.to_csv(args.output, sep='\t',index=False)

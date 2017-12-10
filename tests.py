@@ -58,6 +58,17 @@ TODO
 	def test_output_to_vcf
 
 also test the argument parsers?
+
+		#example data for testing
+		#read in SNP files
+		sam_input_file1 = './example_data/string_name_ex.sam'
+		sam_input_file2 = './example_data/numeric_ex.sam'
+
+		snp_input_file1 = './example_data/numeric_ex.txt'
+		snp_input_file2 = './example_data/string_name_ex.txt'
+
+		polymorphism_vcf.to_csv('example_data.vcf', sep='\t',index=False)
+
 """
 
 if __name__ == '__main__':
