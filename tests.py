@@ -49,6 +49,7 @@ class PlaceSnpsTests(unittest.TestCase):
 	@classmethod
 	def tearDown(self):
 
+TODO
 	def test_read_input_files
 	def test_sam_subset
 	def test_sam_polymorphism_column_merger
@@ -56,6 +57,7 @@ class PlaceSnpsTests(unittest.TestCase):
 	def test_snp_placement_dataframe
 	def test_output_to_vcf
 
+also test the argument parsers?
 """
 
 if __name__ == '__main__':
