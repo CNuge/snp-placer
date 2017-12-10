@@ -113,9 +113,10 @@ if __name__ == '__main__':
 	snp_input_dat = read_input_files(args.snpfile, names = sam_header)
 
 	#subset the sam alignments for rows matching the snp input
-	snp_data_on_contigs = sam_subset(snp_input_dat['SNP'], sam_dat)
+	sam_data_on_contigs = sam_subset(snp_input_dat['SNP'], sam_dat)
 
-	all_polymorphism_data = sam_polymorphism_column_merger(snp_data_on_contigs, snp_input_dat)
+	#merge the snp and sam dataframes
+	all_polymorphism_data = sam_polymorphism_column_merger(sam_data_on_contigs, snp_input_dat)
 
 	#calculate new bp data
 	all_polymorphism_data = calculate_new_bp_data(all_polymorphism_data)

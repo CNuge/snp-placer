@@ -37,8 +37,10 @@ class SamFilterTests(unittest.TestCase):
 			os.remove('./example_data/unittest_out2.sam')
 		except OSError:
 			pass
+	
 	def test_primary_output(self):
 		self.assertEqual(self._primary_example, self._primary_test)
+	
 	def test_secondary_output(self):
 		self.assertEqual(self._secondary_example, self._secondary_test)
 
@@ -71,34 +73,54 @@ class PlaceSnpsTests(unittest.TestCase):
 						list(_comp_df['Qname']))
 
 """
-Would a setup/teardown be more effective?
-I don't think I will need to delete anything.
-	@classmethod
-	def setUpClass(self):
-
-
-	@classmethod
-	def tearDown(self):
 
 TODO
-
-	def test_sam_subset
 	def test_sam_polymorphism_column_merger
 	def test_calculate_new_bp_data
 	def test_snp_placement_dataframe
 	def test_output_to_vcf
 
-also test the argument parsers?
+ALT one big test of pipeline and compare output to hand made .vcf:
 
-		#example data for testing
-		#read in SNP files
-		sam_input_file1 = './example_data/string_name_ex.sam'
-		sam_input_file2 = './example_data/numeric_ex.sam'
+class PlaceSnpsTests(unittest.TestCase):
+	#test all of the functions for placing snps in the genome
 
-		snp_input_file1 = './example_data/numeric_ex.txt'
-		snp_input_file2 = './example_data/string_name_ex.txt'
+	@classmethod
+	def setUpClass(self):
+		# load in the data using the read input functions 
+		#	list of inputs is to simulate the argument parser output.
+		#	This test will fail if the files do not load, later tests
+		#	will catch errors in the formatting of the files 
+		self._sam_data = place_snps.read_sam_files(['example_data/string_name_ex.sam',
+													'example_data/numeric_ex.sam'])
+		self._snp_data = place_snps.read_input_files(['example_data/numeric_ex_snps.txt',
+			
+	@classmethod
+	def tearDown(self):
+		#once the unittest is run, remove the temporary test outputs
+		try:
+			os.remove('./example_data/temp.vcf')
+		except OSError:
+			pass
 
-		polymorphism_vcf.to_csv('example_data.vcf', sep='\t',index=False)
+	def test_pipline(self):
+		#this could be moved out to the ifmain? or bring the other one into its unittest
+		#either way consistency would be good.
+		self._filtered_sam = place_snps.sam_subset(self._snp_data['SNPs'], 
+													self._sam_data)
+
+		self._all_data = place_snps.sam_polymorphism_column_merger(self._filtered_sam, 
+																		self._sam_data)
+		
+		self._all_data = place_snps.calculate_new_bp_data(self._all_data)
+
+		self._all_data = place_snps.snp_placement_dataframe(self._all_data)
+
+		self._polymorphism_vcf = place_snps.output_to_vcf(self._all_data)
+
+		self._polymorphism_vcf.to_csv('./example_data/temp.vcf', sep='\t', index=False)
+
+		#then read in the example and test.vcfs as strings, compare the strings.
 
 """
 
