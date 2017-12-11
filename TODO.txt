@@ -18,8 +18,14 @@ DONE #6 change the header in the snp file input to shorter names!
 
 DONE #7 split place_snps.py functions into modules in a logical manner
 
-#8 rename place_snps.py to a snazzy executable and add a #!
+DONE #8 place_snps.py add a #!
 
 DONE #9 get the cool green passing things on your github
 
 DONE #10 add liscence
+
+
+FINAL STEPS:
+- make the .vcf output for the files to be compared against
+- finish unittest for place_snps
+- update the docs
