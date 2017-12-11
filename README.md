@@ -28,7 +28,7 @@ contain snps (something like gbs or radseq data) to a subject genome
 delimited information on their name, major/minor alleles, bp location and sequence
 this input looks like the following, note column names are required on first line:
 
-		SNP	Polymorphism_query_hit	bp_SNP_location	Sequence
+		SNP	Polymorphism	bp	Sequence
 		TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
 		TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
 	
