@@ -7,14 +7,14 @@ DONE #2. add an argument parser to place_snps.py
 #3. add unittests to:
 DONE	- cigarparse - have these in a ifmain at the bottom of the file.
 DONE	- filter sam file - put this in a 'tests.py' file
-	- cleanup the input/output for place_snps.py
+DONE	- cleanup the input/output for place_snps.py
 	-unittest the place_snps.py functions
 	
 DONE #4 add a filter example file to the example data.
 
 #5 update the readme to give a workflow using the filter_sam_file.py --> place_snps.py
 
-#6 change the header in the snp file input to shorter names!
+DONE #6 change the header in the snp file input to shorter names!
 
 DONE #7 split place_snps.py functions into modules in a logical manner
 
