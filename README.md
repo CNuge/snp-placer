@@ -29,10 +29,10 @@ delimited information on their name, major/minor alleles, bp location and sequen
 this input looks like the following, note column names are required on first line:
 
 		SNP	Polymorphism	bp	Sequence
-		TP10000	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
-		TP10002	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
+		CMN1211	G/T	24	TGCATATGGCTCATCACAAATAGGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
+		CMN8988	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTAAATTTCTAGGGTTC
 	
-Where for the sequence 'TP10000' there is a G at the 24th base pair of the sequence, and T
+Where for the sequence 'CMN1211' there is a G at the 24th base pair of the sequence, and T
 is the alternate allele at this location
 
 ## What the program does:
