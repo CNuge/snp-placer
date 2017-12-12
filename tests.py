@@ -12,7 +12,7 @@ class SamFilterTests(unittest.TestCase):
 		to the expected files in the example_data folder """
 	@classmethod
 	def setUpClass(self):
-		""" read in the data nexessary for the tests """
+		""" read in the data necessary for the tests """
 		primary_example_file = open('example_data/samfile_one_location_alignments.sam','r')
 		self._primary_example = primary_example_file.read()
 		primary_example_file.close()
@@ -46,14 +46,13 @@ class SamFilterTests(unittest.TestCase):
 
 
 class PlaceSnpsTests(unittest.TestCase):
-	#test all of the functions for placing snps in the genome
-
+	"""test all of the functions for placing snps in the genome"""
 	@classmethod
 	def setUpClass(self):
-		# load in the data using the read input functions 
-		#	list of inputs is to simulate the argument parser output.
-		#	This test will fail if the files do not load, later tests
-		#	will catch errors in the formatting of the files 
+		"""load in the data using the read input functions 
+			list of inputs is to simulate the argument parser output.
+			This test will fail if the files do not load, later tests
+			will catch errors in the formatting of the files """
 		self._sam_data = place_snps.read_sam_files(['example_data/numeric_ex.sam',
 													'example_data/string_name_ex.sam'])
 		self._snp_data = place_snps.read_input_files(['example_data/numeric_ex_snps.txt',
@@ -61,15 +60,16 @@ class PlaceSnpsTests(unittest.TestCase):
 			
 	@classmethod
 	def tearDown(self):
-		#once the unittest is run, remove the temporary test outputs
+		"""once the unittest is run, remove the temporary test outputs"""
 		try:
 			os.remove('./example_data/temp.vcf')
 		except OSError:
 			pass
 
 	def test_pipline(self):
-		#this could be moved out to the ifmain? or bring the other one into its unittest
-		#either way consistency would be good.
+		"""run the place snps pipeline and record the result in a temp .vcf
+			the output is then evaluated against the expected data in the
+			example_output.vcf"""
 		self._filtered_sam = place_snps.sam_subset(self._snp_data['SNP'], 
 													self._sam_data)
 
