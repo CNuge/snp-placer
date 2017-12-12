@@ -26,6 +26,7 @@ DONE #10 add liscence
 
 
 FINAL STEPS:
-- make the .vcf output for the files to be compared against
-- finish unittest for place_snps
+DONE- make the .vcf output for the files to be compared against
+DONE- finish unittest for place_snps
 - update the docs
+- add some more fringe cases to example data in tests
