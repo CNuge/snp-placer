@@ -1,0 +1,13 @@
+CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+Contig7	4438	1_T/A_21_comp	A	T	60	.	.
+Contig10	16695	2_G/A_75	G	A	60	.	.
+Contig11	1685	3_A/T_45	A	T	60	.	.
+Contig12	4539	12_C/T_18_comp	G	A	6	.	.
+Contig13	439457	13_G/C_100_comp	C	G	6	.	.
+Contig1	145179	CMN1_A/T_79	A	T	42	.	.
+Contig1	145296	CMN2_C/G_21_comp	G	C	30	.	.
+Contig1	145325	CMN3_A/C_13	A	C	42	.	.
+Contig1	157618	CMN4_A/T_67_comp	T	A	30	.	.
+Contig12	157632	CMN5_G/C_34	G	C	30	.	.
+Contig12	12123469	CMN6_C/A_27	C	A	30	.	.
+Contig17	100079	CMN7_A/C_12_comp	T	G	30	.	.

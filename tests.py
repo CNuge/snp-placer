@@ -46,43 +46,6 @@ class SamFilterTests(unittest.TestCase):
 
 
 class PlaceSnpsTests(unittest.TestCase):
-	"""test all of the functions for placing snps in the genome """
-	def test_read_input_files(self):
-		""" load in the data using the read input functions 
-			list of inputs is to simulate the argument parser output.
-			This test will fail if the files do not load, later tests
-			will catch errors in the formatting of the files """
-		self._sam_data = place_snps.read_sam_files(['example_data/string_name_ex.sam',
-													'example_data/numeric_ex.sam'])
-		self._snp_data = place_snps.read_input_files(['example_data/numeric_ex_snps.txt',
-													'example_data/string_name_ex_snps.txt'])
-
-	def test_sam_subset(self):
-		""" Dataframe here is small example. Returns rows containing ids from list"""
-		_ex_df = pd.DataFrame([['Name1',1,2],
-								['Name9',3,4],
-								['Name2',5,6]], 
-								columns = ['Qname', 'Contig','Pos'])
-		_test_ids = ['Name1', 'Name2', 'Name3']
-		#what it will be compared against
-		_comp_df = pd.DataFrame([['Name1',1,2],
-								['Name2',5,6]], 
-								columns = ['Qname', 'Contig','Pos'])
-		_test_out = place_snps.sam_subset(_test_ids, _ex_df)
-		self.assertEqual(list(_test_out['Qname']),
-						list(_comp_df['Qname']))
-
-"""
-
-TODO
-	def test_sam_polymorphism_column_merger
-	def test_calculate_new_bp_data
-	def test_snp_placement_dataframe
-	def test_output_to_vcf
-
-ALT one big test of pipeline and compare output to hand made .vcf:
-
-class PlaceSnpsTests(unittest.TestCase):
 	#test all of the functions for placing snps in the genome
 
 	@classmethod
@@ -91,9 +54,10 @@ class PlaceSnpsTests(unittest.TestCase):
 		#	list of inputs is to simulate the argument parser output.
 		#	This test will fail if the files do not load, later tests
 		#	will catch errors in the formatting of the files 
-		self._sam_data = place_snps.read_sam_files(['example_data/string_name_ex.sam',
-													'example_data/numeric_ex.sam'])
+		self._sam_data = place_snps.read_sam_files(['example_data/numeric_ex.sam',
+													'example_data/string_name_ex.sam'])
 		self._snp_data = place_snps.read_input_files(['example_data/numeric_ex_snps.txt',
+													'example_data/string_name_ex_snps.txt'])
 			
 	@classmethod
 	def tearDown(self):
@@ -106,11 +70,11 @@ class PlaceSnpsTests(unittest.TestCase):
 	def test_pipline(self):
 		#this could be moved out to the ifmain? or bring the other one into its unittest
 		#either way consistency would be good.
-		self._filtered_sam = place_snps.sam_subset(self._snp_data['SNPs'], 
+		self._filtered_sam = place_snps.sam_subset(self._snp_data['SNP'], 
 													self._sam_data)
 
 		self._all_data = place_snps.sam_polymorphism_column_merger(self._filtered_sam, 
-																		self._sam_data)
+																		self._snp_data)
 		
 		self._all_data = place_snps.calculate_new_bp_data(self._all_data)
 
@@ -121,8 +85,15 @@ class PlaceSnpsTests(unittest.TestCase):
 		self._polymorphism_vcf.to_csv('./example_data/temp.vcf', sep='\t', index=False)
 
 		#then read in the example and test.vcfs as strings, compare the strings.
+		template_vcf = open('example_data/example_output.vcf','r')
+		self._template_vcf = template_vcf.read()
+		template_vcf.close()
 
-"""
+		test_gen_vcf = open('example_data/temp.vcf' , 'r')
+		self._primary_test = test_gen_vcf.read()
+		test_gen_vcf.close()
+
+		self.assertEqual(self._template_vcf, self._primary_test)
 
 if __name__ == '__main__':
 
