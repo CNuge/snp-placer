@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument('input', type = str, 
-		help = 'The filename of the .sam file you wish to filter.')
+		help = 'The name of the .sam file you wish to filter.')
 	parser.add_argument('-p', '--primary', type = str, default = 'samfile_one_location_alignments.sam',
 		help = 'Optional: a name for the output .sam file containing the alignments to one location.\n\
 		Default is: samfile_one_location_alignments.sam')
