@@ -61,8 +61,8 @@ if __name__ == '__main__':
 	parser.add_argument('-s', '--secondary', type = str, default = 'samfile_two_location_alignments.sam',
 		help = 'Optional: a name for the output .sam file containing the alignments to two or more locations.\n\
 		Default is: samfile_multiple_location_alignments.sam ')
+	
 	args = parser.parse_args()
-
 
 	filter_sam(args.input, args.primary, args.secondary)
 
