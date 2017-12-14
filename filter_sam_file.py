@@ -52,11 +52,6 @@ def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out
 
 if __name__ == '__main__':
 
-	#move these to a tests.py file
-	#input_sam_file = './example_data/unfiltered_sam_data.sam'
-	#alignments_one_location = './example_data/samfile_one_location_alignments.sam'
-	#secondary_alignments_out = './example_data/secondary_alignments.sam'
-	# for test:args = parser.parse_args(['./example_data/unfiltered_sam_data.sam'])
 	parser = argparse.ArgumentParser()
 	parser.add_argument('input', type = str, 
 		help = 'The filename of the .sam file you wish to filter.')
