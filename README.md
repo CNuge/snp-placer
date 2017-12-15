@@ -7,10 +7,10 @@ The goal of this program is to take a series of single nucleotide polymprphisms 
 The program requires two inputs:
 
 1. A list of short sequence reads with the information formatted as follows:
-* the name associated with the snp 
-* the alleles involved in the polymorphism (separated by a slash /) 
-* the base pair position of the snp, 
-* the short read sequence
+	* the name associated with the snp 
+	* the alleles involved in the polymorphism (separated by a slash /) 
+	* the base pair position of the snp, 
+	* the short read sequence
 
 		SNP	Polymorphism	bp	Sequence
 		CMN1211	G/T	24	TGCATATGGCTCATCACAAATACGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
@@ -43,9 +43,9 @@ The output file names can be changed using the `-p` flag to indicate the one loc
 		python filter_sam.py input_sam_file.sam -p example_name_primary.sam -s example_name_secondary.sam
 
 
-### `place_snps.py` - place snps from the short sequences into the genome
+### `place_snps.py` - Place the snps from the short sequences into the correct position on the genome
 
 Take a list of short sequence reads and filtered .sam file and accurately place the snps on the short reads in the context of the larger genome (the .sam file's subject sequences, the short reads are the .sam file's query sequences).
 
-The information is turned into a .vcf file for future use.
+The output is in .vcf format. Default output name is `placed_snps.vcf`, change this with the `-o` flag.
 
