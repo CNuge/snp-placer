@@ -12,11 +12,14 @@ The program requires two inputs:
 	* the base pair position of the snp, 
 	* the short read sequence
 
+
+```		
 		SNP	Polymorphism	bp	Sequence
 		CMN1211	G/T	24	TGCATATGGCTCATCACAAATACGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
 		CMN8988	A/C	51	TGCATATGGCTCTCCTATTCTTTGCCCAGTCATATTCAAGGTTAGAACTCATTTTCTAGGGTTC
+```	
 	
-	Where for the sequence 'CMN1211' there is a G at the 24th base pair of the sequence, and T is the alternate allele at this location.
+Where for the sequence 'CMN1211' there is a G at the 24th base pair of the sequence, and T is the alternate allele at this location.
 
 2. A .sam file as input, aligning the short sequence reads from 1. to a genome (or simply larger contigs). The .sam file(s) can be generated using  [samtools](https://github.com/samtools/samtools) or any equivalent workflow of the user's choice that generates alignment data in the .sam format.
 
