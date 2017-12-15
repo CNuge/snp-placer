@@ -55,12 +55,12 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('input', type = str, 
 		help = 'The name of the .sam file you wish to filter.')
-	parser.add_argument('-p', '--primary', type = str, default = 'samfile_one_location_alignments.sam',
+	parser.add_argument('-p', '--primary', type = str, default = 'one_location_alignments.sam',
 		help = 'Optional: a name for the output .sam file containing the alignments to one location.\n\
-		Default is: samfile_one_location_alignments.sam')
-	parser.add_argument('-s', '--secondary', type = str, default = 'samfile_two_location_alignments.sam',
+		Default is: one_location_alignments.sam')
+	parser.add_argument('-s', '--secondary', type = str, default = 'multiple_location_alignments.sam',
 		help = 'Optional: a name for the output .sam file containing the alignments to two or more locations.\n\
-		Default is: samfile_multiple_location_alignments.sam ')
+		Default is: multiple_location_alignments.sam')
 	
 	args = parser.parse_args()
 
