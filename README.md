@@ -7,9 +7,9 @@ The goal of this program is to take a series of single nucleotide polymprphisms 
 The program requires two inputs:
 
 1. A list of short sequence reads with the following information:
-		- the name associated with the snp
-		- the alleles of the polymorphism (separated by a slash /)
-		- the base pair
+		* the name associated with the snp
+		* the alleles of the polymorphism (separated by a slash /)
+		* the base pair
 
 		SNP	Polymorphism	bp	Sequence
 		CMN1211	G/T	24	TGCATATGGCTCATCACAAATACGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
