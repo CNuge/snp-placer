@@ -29,7 +29,18 @@ The program is written in [python3.6](https://www.python.org/downloads/) and uti
 ## Workflow
 
 ### `filter_sam_file.py` - Filters a .sam file retaining only the required data
-You can conduct an initial filtering of the .sam file, splitting alignments to one location from alignments to two+ locations. This is because you may wish to treat these cases in different manners.
+You can conduct an initial filtering of the .sam file, splitting the file into sequences that align to one location (default output name `one_location_alignments.sam`) and sequences that align to two+ locations (default output name `multiple_location_alignments.sam`. This is done because it is logical to treat these cases differently. Short sequence reads aligning to 2+ inherently introduce uncertainty into the exact bp location of snps, so these should be utilized with caution. 
+
+`filter_sam.py` can be run directly from the command line using the follwing syntax
+		
+		python filter_sam.py input_sam_file.sam
+
+The `input_sam_file.sam` data will be filtered and data is sent to the one location(`one_location_alignments.sam`) and two+ locations (`multiple_location_alignments.sam`) output files. Sequences aligning to no locations are discarded.
+
+The output file names can be changed using the `-p` flag to indicate the one location output filename and the `-s` flag to indicate the  two+ locations output filename. For example:
+
+		python filter_sam.py input_sam_file.sam -p example_name_primary.sam -s example_name_secondary.sam
+
 
 ### `place_snps.py` - place snps from the short sequences into the genome
 
