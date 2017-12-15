@@ -31,7 +31,9 @@ The program is written in [python3.6](https://www.python.org/downloads/) and uti
 ### `filter_sam_file.py` - Filters a .sam file retaining only the required data
 You can conduct an initial filtering of the .sam file, splitting alignments to one location from alignments to two+ locations. This is because you may wish to treat these cases in different manners.
 
-3. The program will determine the bp position for the snp on the chromosome/contig of the reference genome you have aligned it to (using the .sam information)
+### `place_snps.py` - place snps from the short sequences into the genome
 
-4. The information is turned into a .vcf file for future use.
+Take a list of short sequence reads and filtered .sam file and accurately place the snps on the short reads in the context of the larger genome (the .sam file's subject sequences, the short reads are the .sam file's query sequences).
+
+The information is turned into a .vcf file for future use.
 
