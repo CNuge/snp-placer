@@ -31,6 +31,8 @@ The program is written in [python3.6](https://www.python.org/downloads/) and uti
 
 ## Workflow
 
+To use the program, you first filter the input sam file using `filter_sam_file.py` and then pass the output(s) from the filter step to `place_snps.py` along with the short sequence read information files.
+
 ### `filter_sam_file.py` - Filters a .sam file retaining only the required data
 You can conduct an initial filtering of the .sam file, splitting the file into sequences that align to one location (default output name `one_location_alignments.sam`) and sequences that align to two+ locations (default output name `multiple_location_alignments.sam`. This is done because it is logical to treat these cases differently. Short sequence reads aligning to 2+ inherently introduce uncertainty into the exact bp location of snps, so these should be utilized with caution. 
 
