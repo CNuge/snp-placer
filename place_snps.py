@@ -118,7 +118,7 @@ def output_to_vcf(output_df):
 											x['Flag']), axis=1)
 
 	vcf_out = vcf_out[['Rname','contig_location','full_adj_name','REF','ALT','MapQ','FILTER','INFO']]
-	vcf_out.columns =['CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
+	vcf_out.columns =['#CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
 	return vcf_out
 
 
