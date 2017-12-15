@@ -25,7 +25,7 @@ def read_input_files(list_of_inputs, names = None):
 def read_sam_files(list_of_inputs):
 	""" this calls the read_input_files and stores the sam_header """
 	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext',
-				'Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','value2']
+					'Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','value2']
 	return read_input_files(list_of_inputs, sam_header)
 
 
@@ -41,7 +41,7 @@ def sam_polymorphism_column_merger(sam_dataframe, snp_dataframe):
 		note that if two snps on one contig, there will be multiple 
 		rows for that snp"""
 	return pd.merge(sam_dataframe, snp_dataframe, 
-					how='left',left_on='Qname', right_on='SNP')
+					how='left', left_on='Qname', right_on='SNP')
 
 
 def calculate_new_bp_data(sam_dataframe):
@@ -72,22 +72,45 @@ def output_to_vcf(output_df):
 	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
 	#test this
 	if type(output_df['SNP'][0]) == str:
-		output_df['adj_name'] = output_df['SNP'] +'_' + output_df['Polymorphism'] + '_' + output_df['bp'].astype(str)		
+		output_df['adj_name'] = output_df['SNP'] + \
+								'_' + \
+								output_df['Polymorphism'] + \
+								'_' + \
+								output_df['bp'].astype(str)		
 	else:
-		output_df['adj_name'] = output_df['SNP'].astype(str) +'_' + output_df['Polymorphism'] + '_' + output_df['bp'].astype(str)
+		output_df['adj_name'] = output_df['SNP'].astype(str) + \
+								'_' + \
+								output_df['Polymorphism'] + \
+								'_' + \
+								output_df['bp'].astype(str)
 
-	output_df['full_adj_name'] = output_df.apply(lambda x: samParse.compliment_name(x['adj_name'], x['Flag']), axis=1)
+	output_df['full_adj_name'] = output_df.apply(
+		lambda x: samParse.compliment_name(x['adj_name'], 
+											x['Flag']), axis=1)
 
-	vcf_out = output_df[['Rname','contig_location','full_adj_name', 'Polymorphism','MapQ','Flag']].copy()
+	vcf_out = output_df[['Rname',
+						'contig_location',
+						'full_adj_name', 
+						'Polymorphism',
+						'MapQ',
+						'Flag']].copy()
+	
 	vcf_out['FILTER'] = '.'
 	vcf_out['INFO'] = '.'
 	vcf_out['QUAL'] = '.'
+	
 	vcf_out['REF_check'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[0])
+
 	vcf_out['ALT_a'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[1:])
+	
 	vcf_out['ALT_check'] = vcf_out['ALT_a'].apply(lambda x: ','.join(x))
 
-	vcf_out['REF'] = vcf_out.apply(lambda x: samParse.allele_comp_check(x['REF_check'] , x['Flag']), axis=1)
-	vcf_out['ALT'] = vcf_out.apply(lambda x: samParse.allele_comp_check(x['ALT_check'] , x['Flag']), axis=1)
+	vcf_out['REF'] = vcf_out.apply(
+		lambda x: samParse.allele_comp_check(x['REF_check'],
+											x['Flag']), axis=1)
+	vcf_out['ALT'] = vcf_out.apply(
+		lambda x: samParse.allele_comp_check(x['ALT_check'],
+											x['Flag']), axis=1)
 
 	vcf_out = vcf_out[['Rname','contig_location','full_adj_name','REF','ALT','MapQ','FILTER','INFO']]
 	vcf_out.columns =['CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
