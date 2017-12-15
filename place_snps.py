@@ -69,8 +69,9 @@ def snp_placement_dataframe(sam_dataframe):
 
 
 def output_to_vcf(output_df):
-	""" need the following: #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO"""
-	#test this
+	""" Take the informaiton in the dataframe and turn it
+		into .vcf file format with the following header: 
+		#CHROM POS ID REF ALT QUAL FILTER INFO"""
 	if type(output_df['SNP'][0]) == str:
 		output_df['adj_name'] = output_df['SNP'] + \
 								'_' + \
@@ -99,15 +100,19 @@ def output_to_vcf(output_df):
 	vcf_out['INFO'] = '.'
 	vcf_out['QUAL'] = '.'
 	
-	vcf_out['REF_check'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[0])
+	vcf_out['REF_check'] = vcf_out['Polymorphism'].apply(
+		lambda x: x.split('/')[0])
 
-	vcf_out['ALT_a'] = vcf_out['Polymorphism'].apply(lambda x: x.split('/')[1:])
+	vcf_out['ALT_a'] = vcf_out['Polymorphism'].apply(
+		lambda x: x.split('/')[1:])
 	
-	vcf_out['ALT_check'] = vcf_out['ALT_a'].apply(lambda x: ','.join(x))
+	vcf_out['ALT_check'] = vcf_out['ALT_a'].apply(
+		lambda x: ','.join(x))
 
 	vcf_out['REF'] = vcf_out.apply(
 		lambda x: samParse.allele_comp_check(x['REF_check'],
 											x['Flag']), axis=1)
+	
 	vcf_out['ALT'] = vcf_out.apply(
 		lambda x: samParse.allele_comp_check(x['ALT_check'],
 											x['Flag']), axis=1)
