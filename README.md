@@ -1,6 +1,6 @@
 # SNP genome placement
 [![Build Status](https://travis-ci.org/CNuge/snp_genome_placement.svg?branch=master)](https://travis-ci.org/CNuge/snp_genome_placement)
-
+## Overview
 The goal of this program is to take a series of single nucleotide polymprphisms (snps) associated with short sequence reads, and determine their exact base pair position in the context of a larger genome. This can be useful for comparative study of snps identified in different studies/techniques as it orients the snps relative to a common reference. This can also be useful if you need more surrounding sequence information then provided by the origninal short sequence reads. By placing the SNP in the correct location on the genome, you are able to pull an exact amount of flanking sequence from either side of the snp for further analysis. This can be useful in compartive genome analyses (obtaining inputs for BLAST) or for things like designing genotyping arrays, were an exact amount of flanking sequence is needed on either side of the snp.
 
 ## Inputs:
