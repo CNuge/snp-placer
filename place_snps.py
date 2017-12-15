@@ -7,7 +7,6 @@ from pandas import Series, DataFrame
 from itertools import groupby
 import gc
 
-
 def read_input_files(list_of_inputs, names = None):
 	""" read in a list of files (from argparse), turn them into dataframes
 		and concatenate them if the length of the list exceeds 1."""
