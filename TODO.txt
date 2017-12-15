@@ -8,11 +8,11 @@ DONE #2. add an argument parser to place_snps.py
 DONE	- cigarparse - have these in a ifmain at the bottom of the file.
 DONE	- filter sam file - put this in a 'tests.py' file
 DONE	- cleanup the input/output for place_snps.py
-	-unittest the place_snps.py functions
+DONE	-unittest the place_snps.py functions
 	
 DONE #4 add a filter example file to the example data.
 
-#5 update the readme to give a workflow using the filter_sam_file.py --> place_snps.py
+DONE#5 update the readme to give a workflow using the filter_sam_file.py --> place_snps.py
 
 DONE #6 change the header in the snp file input to shorter names!
 
@@ -28,5 +28,5 @@ DONE #10 add liscence
 FINAL STEPS:
 DONE- make the .vcf output for the files to be compared against
 DONE- finish unittest for place_snps
-- update the docs
+DONE- update the docs
 - add some more fringe cases to example data in tests
