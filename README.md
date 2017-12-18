@@ -12,8 +12,6 @@ The program requires two inputs:
 	* The alleles involved in the polymorphism (separated by a slash /) 
 	* The base pair position of the snp. The first bp in the string is position 1.
 	* The DNA sequence
-
-
 ```		
 		SNP	Polymorphism	bp	Sequence
 		CMN1211	G/T	24	TGCATATGGCTCATCACAAATACGCAGAAAAAATGTTGCAGGTGGAGCATCACATGCA
