@@ -68,7 +68,7 @@ def snp_placement_dataframe(sam_dataframe):
 
 
 def output_to_vcf(output_df):
-	""" Take the informaiton in the dataframe and turn it
+	""" take the informaiton in the dataframe and turn it
 		into .vcf file format with the following header: 
 		#CHROM POS ID REF ALT QUAL FILTER INFO"""
 	if type(output_df['SNP'][0]) == str:

@@ -25,7 +25,7 @@ def compliment_name(name, flag):
 def match_snp(allele):
 	""" return the complimentary nucleotide for an
 		input string of a single nucleotide.
-		Missing bp (N) will return a N. """
+		missing bp (N) will return a N. """
 	allele = allele.upper()
 	if allele == 'A':
 		return 'T'

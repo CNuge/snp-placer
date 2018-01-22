@@ -3,7 +3,7 @@ import unittest
 from itertools import groupby
 
 def cigar_cutter(cigar):
-	"""split a cigar string into tuples of bp# and cigar identifier """
+	""" split a cigar string into tuples of bp# and cigar identifier """
 	list_of_data = [''.join(g) for _, g in groupby(cigar, str.isalpha)]
 	cigar_tuples = list(zip([int(x) for x in list_of_data[::2]],list_of_data[1::2]))
 	return cigar_tuples
@@ -77,16 +77,14 @@ def cigar_string_change(bp_of_snp, cigar_string):
 
 
 def alignment_length(cigar_string):
-	"""
-	Take a list of cigar data tuples count total length of alignment: 
-	'M' is match to the reference so these are counted
-	'D' is deletion from  the reference, so these are counted in the length
-	
-	'I' is more sequence on the short read not on the referece, thefore
-	don't add to length of sequence covered on the reference
-	
-	'S' is trimmed so don't add to length of sequence covered on the reference
-	"""
+	""" take a list of cigar data tuples count total length of alignment: 
+		'M' is match to the reference so these are counted
+		'D' is deletion from  the reference, so these are counted in the length
+		
+		'I' is more sequence on the short read not on the referece, thefore
+		don't add to length of sequence covered on the reference
+		
+		'S' is trimmed so don't add to length of sequence covered on the reference """
 	align_length = 0
 	for pair in cigar_cutter(cigar_string):
 		if pair[1] == 'M' or pair[1] == 'D':
