@@ -1,4 +1,5 @@
-# SNP genome placement
+# snp-placer
+## A tool for taking snps on short sequence reads and accurately placing them in a genome
 [![Build Status](https://travis-ci.org/CNuge/snp_genome_placement.svg?branch=master)](https://travis-ci.org/CNuge/snp_genome_placement)
 
 ## Overview
