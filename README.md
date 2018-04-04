@@ -1,9 +1,9 @@
 # snp-placer
-## A tool for taking snps on short sequence reads and accurately placing them in a genome
+## Take snps identified on short sequence reads and accurately place them in a genome
 [![Build Status](https://travis-ci.org/CNuge/snp-placer.svg?branch=master)](https://travis-ci.org/CNuge/snp-placer)
 
 ## Overview
-The goal of this program is to take a series of single nucleotide polymprphisms (snps) associated with short sequence reads, and determine their exact base pair position in the context of a larger genome. This can be useful for comparative study of snps identified in different studies/techniques as it orients the snps relative to a common reference. This can also be useful if you need more surrounding sequence information then provided by the origninal short sequence reads. By placing the SNP in the correct location on the genome, you are able to pull an exact amount of flanking sequence from either side of the snp for further analysis. This can be useful in compartive genome analyses (obtaining inputs for BLAST) or for things like designing genotyping arrays, were an exact amount of flanking sequence is needed on either side of the snp.
+The goal of this program is to take a series of single nucleotide polymprphisms (snps) associated with short sequence reads and determine their exact base pair position in the context of a larger genome. When working with reduced representation sequencing, the data produced will include short DNA sequences (50-200bp in length) and a series of snps associated with these sequences. The problem with these short reads is a lack of context. snp-placer is designed to help provide this context for snps identified in short sequence reads. By taking a list of snps and their location in short sequence reads ([in the correct format](https://github.com/CNuge/snp_genome_placement/tree/master/example_data/string_name_ex_snps.txt)) and alignment information ([in the form of a .sam file](https://github.com/samtools/samtools)) snp-placer will give the exact base pair position of the snps in the whole genome sequence. It does this by taking the alignment information and adjusting the basepair position of the snp to account for things such as insertions, deletions and reverse alignments. This is important information for comparative study of snps identified in different studies/techniques as it orients the snps relative to a common reference. This can also be useful if you need more surrounding sequence information then provided by the origninal short sequence reads. By placing the snp in the correct location on the genome, you are able to pull an exact amount of flanking sequence from either side of the snp for further analysis. This can help in compartive genome analyses (obtaining inputs for BLAST) or for things like designing genotyping arrays, were an exact amount of flanking sequence is needed on either side of the snp.
 
 ## Inputs
 The program requires two inputs:
@@ -21,7 +21,7 @@ The program requires two inputs:
 	
 Where for the sequence 'CMN1211' there is a G at the 24th base pair of the sequence, and T is the alternate allele at this location.
 
-2. A .sam file as input, aligning the short sequence reads from 1. to a genome (or simply larger contigs). The .sam file(s) can be generated using  [samtools](https://github.com/samtools/samtools) or any equivalent workflow of the user's choice that generates alignment data in the .sam format.
+2. A .sam file as input, aligning the short sequence reads from 1. to a genome (or simply larger contigs). The .sam file(s) can be generated using [samtools](https://github.com/samtools/samtools) or any equivalent workflow of the user's choice that generates alignment data in the .sam format.
 
 See the folder [example_data](https://github.com/CNuge/snp_genome_placement/tree/master/example_data) for example input files.
 
