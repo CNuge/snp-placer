@@ -2,10 +2,10 @@ language: python
 python:
     - "3.6"
 install:
-    - pip install -r requirements.txt
+    - pip install -r parse/requirements.txt
 script:
-    - python cigarParse.py
-    - python samParse.py
-    - python tests.py
+    - python parse/cigarParse.py
+    - python parse/samParse.py
+    - python parse/tests.py
 notifications:
   email: false

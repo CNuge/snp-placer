@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-import argparse
-import cigarParse
-import samParse
-import pandas as pd
-from pandas import Series, DataFrame
-from itertools import groupby
 import gc
+import argparse
+import pandas as pd
+from itertools import groupby
+from pandas import Series, DataFrame
+
+from parse import cigarParse
+from parse import samParse
+
 
 def read_input_files(list_of_inputs, names = None):
 	""" read in a list of files (from argparse), turn them into dataframes
