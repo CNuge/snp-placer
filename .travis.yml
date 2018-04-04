@@ -6,6 +6,6 @@ install:
 script:
     - python parse/cigarParse.py
     - python parse/samParse.py
-    - python parse/tests.py
+    - python tests.py
 notifications:
   email: false
