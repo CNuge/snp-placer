@@ -53,7 +53,8 @@ def calculate_new_bp_data(sam_dataframe):
 		apply cigarParse bp adjustment to each row"""
 	sam_dataframe['adjusted_bp_SNP_location'] = sam_dataframe.apply(
 		lambda x: cigarParse.cigar_string_change(x['bp'], 
-												x['Cigar']) , axis=1)
+												x['Cigar'], 
+												x['Flag']), axis=1)
 	""" count the alignment length for each row using cigar """
 	sam_dataframe['alignment_length'] = sam_dataframe.apply(
 		lambda x: cigarParse.alignment_length(x['Cigar']) , axis=1)

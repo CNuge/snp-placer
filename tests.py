@@ -6,6 +6,8 @@ import filter_sam_file
 import place_snps
 import pandas as pd
 
+from parse import cigarParse
+
 class SamFilterTests(unittest.TestCase):
 	""" Test the functionality of the filter sam file module
 		after the function is run, the outputs are compared 
@@ -62,7 +64,8 @@ class PlaceSnpsTests(unittest.TestCase):
 	def tearDown(self):
 		"""once the unittest is run, remove the temporary test outputs"""
 		try:
-			os.remove('./example_data/temp.vcf')
+			pass
+			#os.remove('./example_data/temp.vcf')
 		except OSError:
 			pass
 
@@ -94,6 +97,20 @@ class PlaceSnpsTests(unittest.TestCase):
 		test_gen_vcf.close()
 
 		self.assertEqual(self._template_vcf, self._primary_test)
+
+	def test_revCompBug(self):
+
+		bp_of_snp = 36
+		cigar_string = '113M23S'
+		flag = 16
+		fwd_flag = 0
+
+		self.assertEqual(cigarParse.cigar_string_change(bp_of_snp, cigar_string, flag),
+						36-23) #36 original match, soft clipping of 23
+
+		self.assertEqual(cigarParse.cigar_string_change(bp_of_snp, cigar_string, fwd_flag),
+						36) #the match is the same when the flag is the default (fwd)
+
 
 if __name__ == '__main__':
 

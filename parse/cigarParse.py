@@ -9,7 +9,7 @@ def cigar_cutter(cigar):
 	return cigar_tuples
 
 
-def adjust_bp(bp_of_snp, cigar_dat):
+def adjust_bp(bp_of_snp, cigar_dat, flag = 0):
 	""" scan the cigar data, making front trims, insertions, and deletions
 		This makes the changes relative to the REFERENCE GENOME's base pairs
 		Thereby orienting the SNPS correctly
@@ -19,6 +19,14 @@ def adjust_bp(bp_of_snp, cigar_dat):
 		as five base pairs are skipped over and not used in the reference genome"""
 	change_to_bp = 0
 	bp_scan = 0
+
+	#bug caught by Eric Rondeau
+	#But for reads aligned in reverse complement, 
+	#the bp_of_snp is provided with respect to the original read orientation. 
+	#Therefore the cigar string needs to be read from right to left
+	if flag == 16 or flag == 272:
+		cigar_dat = cigar_dat[::-1]		
+
 	for x, cigar_bit in enumerate(cigar_dat):
 		if cigar_bit[1] == 'M':
 			""" count the matches towards the scan, no change to location"""
@@ -60,17 +68,17 @@ def fringe_snp_check(bp_of_snp, cigar_dat):
 	return False
 
 
-def cigar_string_change(bp_of_snp, cigar_string):
+def cigar_string_change(bp_of_snp, cigar_string, flag = 0):
 	""" take in the original string, and the snp location, adjust location based on
 		cigar data, returns a new bp integer that can be used relative to the start
 		of the sequence's alignment to place the bp of the snp
 		NOTE: both the input and output string are NOT zero indexed """
 	cigar_dat = cigar_cutter(cigar_string)
 	#first, identify the snps with no indels or font trimming
-	if cigar_dat[0][1] == 'M' and cigar_dat[0][0] > bp_of_snp:
+	if flag != 16 and flag != 272 and cigar_dat[0][1] == 'M' and cigar_dat[0][0] > bp_of_snp:
 		return bp_of_snp
 	else:
-		new_bp = adjust_bp(bp_of_snp, cigar_dat)
+		new_bp = adjust_bp(bp_of_snp, cigar_dat, flag)
 		if fringe_snp_check(bp_of_snp, cigar_dat) == True:
 			new_bp = 'snp_outside_aligned_region'
 		return new_bp
