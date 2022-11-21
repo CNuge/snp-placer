@@ -42,9 +42,11 @@ def sam_polymorphism_column_merger(sam_dataframe, snp_dataframe):
 	""" grab the bp, and polymorphisms from the snp dataframe
 		note that if two snps on one contig, there will be multiple 
 		rows for that snp"""
-	return pd.merge(sam_dataframe, snp_dataframe, 
+	merged_df = pd.merge(sam_dataframe, snp_dataframe, 
 					how='left', left_on='Qname', right_on='SNP')
 
+	merged_df.drop_duplicates(inplace=True)
+	return merged_df
 
 def calculate_new_bp_data(sam_dataframe):
 	""" pass in sam df, this will call the relevant cigar functions
@@ -141,9 +143,9 @@ if __name__ == '__main__':
 	samfile = args.samfile
 	snpfile = args.snpfile
 	#note these must receive lists as first argument
-	sam_dat = read_sam_files([samfile])
+	sam_dat = read_sam_files(samfile)
 	
-	snp_input_dat = read_input_files([snpfile])
+	snp_input_dat = read_input_files(snpfile)
 
 	#subset the sam alignments for rows matching the snp input
 	sam_data_on_contigs = sam_subset(snp_input_dat['SNP'], sam_dat)
