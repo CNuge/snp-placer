@@ -22,7 +22,7 @@ import argparse
 	python filter_sam_file.py input_sam_name.sam
 	"""
 
-def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out):
+def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out, unaccounted_alignments_out):
 	""" take an input .sam file, remove the header lines and split the results
 		into alignments to one location and alignments to two+ locations """
 	with open(input_sam_file) as file:
@@ -48,7 +48,9 @@ def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out
 				#account for these!				
 				""" there are other flags in this column, that do no appear in the dataset I'm working on"""
 				print('this line not in the categories this program accounts for:\n')
-				print(line)
+				add_to = open(unaccounted_alignments_out,'a')
+				add_to.write(line)
+				add_to.close()
 
 if __name__ == '__main__':
 
@@ -61,6 +63,9 @@ if __name__ == '__main__':
 	parser.add_argument('-s', '--secondary', type = str, default = 'multiple_location_alignments.sam',
 		help = 'Optional: a name for the output .sam file containing the alignments to two or more locations.\n\
 		Default is: multiple_location_alignments.sam')
+	parser.add_argument('-u', '--unaccounted', type = str, default = 'unaccounted_alignments.sam',
+		help = 'Optional: a name for the output .sam file containing the alignments falling in neither of the previous categories.\n\
+		Default is: unaccounted_alignments.sam')
 	
 	args = parser.parse_args()
 
