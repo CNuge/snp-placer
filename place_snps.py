@@ -27,7 +27,7 @@ def read_input_files(list_of_inputs, names = None):
 def read_sam_files(list_of_inputs):
 	""" this calls the read_input_files and stores the sam_header """
 	sam_header = ['Qname','Flag','Rname','Pos','MapQ','Cigar','Rnext',
-					'Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','value2']
+					'Pnext', 'TLEN', 'SEQ', 'QUAL','tag','type','value','value2', 'extra_info']
 	return read_input_files(list_of_inputs, sam_header)
 
 
@@ -138,10 +138,12 @@ if __name__ == '__main__':
 							help = 'The name of the output .vcf file. Default is placed_snps.vcf')
 	args = parser.parse_args()
 
+	samfile = args.samfile
+	snpfile = args.snpfile
 	#note these must receive lists as first argument
-	sam_dat =  read_sam_files(args.samfile)
+	sam_dat = read_sam_files([samfile])
 	
-	snp_input_dat = read_input_files(args.snpfile)
+	snp_input_dat = read_input_files([snpfile])
 
 	#subset the sam alignments for rows matching the snp input
 	sam_data_on_contigs = sam_subset(snp_input_dat['SNP'], sam_dat)
@@ -152,7 +154,7 @@ if __name__ == '__main__':
 	#calculate new bp data
 	all_polymorphism_data = calculate_new_bp_data(all_polymorphism_data)
 
-	all_polymorphism_data  = snp_placement_dataframe(all_polymorphism_data )
+	all_polymorphism_data  = snp_placement_dataframe(all_polymorphism_data)
 
 	#default .vcf has name 'placed_snps.vcf'
 	polymorphism_vcf = output_to_vcf(all_polymorphism_data)

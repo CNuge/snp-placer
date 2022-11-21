@@ -26,7 +26,7 @@ def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out
 	""" take an input .sam file, remove the header lines and split the results
 		into alignments to one location and alignments to two+ locations """
 	with open(input_sam_file) as file:
-		for line in file:
+		for i, line in enumerate(file):
 			if line[0] == "@":
 				""" skip the header section"""
 				continue
@@ -47,7 +47,7 @@ def filter_sam(input_sam_file, alignments_one_location, secondary_alignments_out
 			else:
 				#account for these!				
 				""" there are other flags in this column, that do no appear in the dataset I'm working on"""
-				print('this line not in the categories this program accounts for:\n')
+				print(f'line {i+1} not in the categories this program accounts for.\n')
 				add_to = open(unaccounted_alignments_out,'a')
 				add_to.write(line)
 				add_to.close()
@@ -69,5 +69,5 @@ if __name__ == '__main__':
 	
 	args = parser.parse_args()
 
-	filter_sam(args.input, args.primary, args.secondary)
+	filter_sam(args.input, args.primary, args.secondary, args.unaccounted)
 
